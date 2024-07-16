@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
-    public float lifeTime = 5f;
+    public float lifeTime = 10f;
     private bool Strike = false;
     private bool Catching = false;
 
@@ -59,7 +59,7 @@ public class BallController : MonoBehaviour
     }
     private void Update()
     {
-        DrawTrajectory();
+        //DrawTrajectory();
     }
 
     void DrawTrajectory()
@@ -93,7 +93,7 @@ public class BallController : MonoBehaviour
         {
             Debug.Log("Hit");
             Vector3 hitDirection = (transform.position - collision.transform.position).normalized;
-            float hitForce = 50f;
+            float hitForce = 100f;
             rb.AddForce(hitDirection * hitForce, ForceMode.Impulse);
         }
     }

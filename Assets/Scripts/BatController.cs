@@ -8,20 +8,23 @@ public class BatController : MonoBehaviour
     public float swingSpeed = 100f;
     public float swingDuration = 0.5f;
     public float swingAngle = 60f;
-    private bool isSwinging = false;
+    public bool isSwinging = false;
 
     public Transform BatSocket;
+    public Transform BatTarget;
     private Transform startTransform;
-    
+    public Transform strikeZoneCenter;
+
     public RectTransform target;
     private Canvas canvas;
-    public float moveSpeed = 100f;
+    public float moveSpeed = 100f;    
 
     private void Start()
     {
         startTransform = BatSocket;
         canvas = FindObjectOfType<Canvas>();
     }
+
     void Update()
     {
         HandleKeyboardInput();
@@ -35,35 +38,29 @@ public class BatController : MonoBehaviour
     {
         Vector3 moveDirection = Vector3.zero;
 
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow))
         {
             moveDirection.y += 1;
         }
-        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow))
         {
             moveDirection.y -= 1;
-        }
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        }   
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
             moveDirection.x -= 1;
         }
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow))
         {
             moveDirection.x += 1;
         }
 
         // 타겟 이동
         target.anchoredPosition += (Vector2)moveDirection * moveSpeed * Time.deltaTime;
+
+
     }
-    void HandleMouseInput()
-    {
-        if (Input.GetMouseButton(0))
-        {
-            Vector2 mousePos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, Input.mousePosition, canvas.worldCamera, out mousePos);
-            target.anchoredPosition = mousePos;
-        }
-    }
+    
     public static float GetAngle(Vector3 from, Vector3 to)
     {
         Vector3 v = to - from;
@@ -71,19 +68,24 @@ public class BatController : MonoBehaviour
     }
 
     IEnumerator SwingBat()
-    {
+    {        
         isSwinging = true;
-        float rotAngle = 0f;
+        float elapsedTime = 0f;
+        float targetRotation = 60f; // 목표 회전 각도
+        float startRotation = transform.rotation.eulerAngles.y; // 초기 y축 회전 값
+        float endRotation = startRotation + targetRotation; // 목표 y축 회전 값
+        float currentRotation = startRotation;
 
-        while(rotAngle < swingAngle)
+        while (elapsedTime < swingDuration)
         {
-            //transform.Rotate(Vector3.up, swingSpeed * Time.deltaTime);
-            BatSocket.Rotate(BatSocket.up, swingSpeed * Time.deltaTime);
-            rotAngle = GetAngle(startTransform.position, transform.position);
-            //elapsedTime += Time.deltaTime;
+            currentRotation = Mathf.Lerp(startRotation, endRotation, elapsedTime / swingDuration);
+            transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.eulerAngles.x, currentRotation, transform.rotation.eulerAngles.z));
+            elapsedTime += Time.deltaTime;
             yield return null;
         }
+
+        // 최종적으로 정확한 목표 각도로 설정
+        transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.eulerAngles.x, endRotation, transform.rotation.eulerAngles.z));
         isSwinging = false;
-        transform.position = startTransform.position;
     }
 }
