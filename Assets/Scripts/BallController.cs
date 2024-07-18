@@ -59,7 +59,7 @@ public class BallController : MonoBehaviour
     }
     private void Update()
     {
-        //DrawTrajectory();
+        DrawTrajectory();
     }
 
     void DrawTrajectory()
@@ -93,7 +93,10 @@ public class BallController : MonoBehaviour
         {
             Debug.Log("Hit");
             Vector3 hitDirection = (transform.position - collision.transform.position).normalized;
-            float hitForce = 100f;
+
+            //타이밍을 계산해서 hitforce변화를 준다.
+            float hitForce = 50f;
+
             rb.AddForce(hitDirection * hitForce, ForceMode.Impulse);
         }
     }

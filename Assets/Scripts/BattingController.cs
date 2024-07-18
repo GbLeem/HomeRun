@@ -6,44 +6,62 @@ public class BattingController : MonoBehaviour
 {
     //Make PCI anchor
     public RectTransform target;
-    private Canvas canvas;
-    public float moveSpeed = 150f;
+    private Canvas canvas;    
+    public float moveSpeed = 200f;
 
     //for swing 
     private bool isSwinging = false;
     public Transform cylinder;
     public Transform batHand;
-    public float swingDuration = 0.5f; // 스윙 시간
+
+    //TODO 적절한 값 찾고 private로 바꾸자
+    public float swingDuration = 0.2f; // 스윙 시간
     public float swingAngle = 120f; // 회전 각도
 
     void Start()
     {
         canvas = FindObjectOfType<Canvas>();
+
+        //안보이게 만드는 코드
+        //MeshRenderer meshRenderer = cylinder.GetComponentInChildren<MeshRenderer>();
+        //if (meshRenderer != null)
+        //{
+        //    meshRenderer.enabled = false;
+        //}
     }
 
     void HandleKeyboardInput()
     {
         Vector3 moveDirection = Vector3.zero;
+        Vector3 batDirection = Vector3.zero;
 
         if (Input.GetKey(KeyCode.UpArrow))
         {
+            batDirection.y += 1;
             moveDirection.y += 1;
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
+            batDirection.y -= 1;
             moveDirection.y -= 1;
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            moveDirection.x += 1;
+            moveDirection.x -= 1;
+            batDirection.x += 1;
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            moveDirection.x -= 1;
+            moveDirection.x += 1;
+            batDirection.x -= 1;
         }
 
         // 타겟 이동
-        cylinder.transform.position += moveDirection * Time.deltaTime;
+        // 타겟은 안보이게 하기
+        cylinder.transform.position += batDirection * Time.deltaTime;
+
+        //PCI 이동
+        target.transform.position += moveDirection * moveSpeed * Time.deltaTime;
     }
 
     // Update is called once per frame
@@ -60,6 +78,7 @@ public class BattingController : MonoBehaviour
     {
         isSwinging = true;
 
+        //TODO 여기서 회전의 기준점이 bat hand가 되어야 함
         Quaternion originalRotation = transform.rotation; //기존 회전값
         Quaternion targetRotation = originalRotation * Quaternion.Euler(0, swingAngle, 0); //목표 회전값
 
@@ -67,6 +86,7 @@ public class BattingController : MonoBehaviour
         yield return RotateOverTime(targetRotation, originalRotation, swingDuration); //돌아오기
         isSwinging = false;
     }
+
     private IEnumerator RotateOverTime(Quaternion fromRotation, Quaternion toRotation, float duration)
     {
         float elapsed = 0f;
@@ -80,35 +100,5 @@ public class BattingController : MonoBehaviour
 
         transform.rotation = toRotation;
     }
-    //IEnumerator SwingBat()
-    //{
-    //    Quaternion initialRotation = batHand.localRotation;
-    //    Quaternion targetRotation = initialRotation * Quaternion.Euler(0, swingAngle, 0);
-
-    //    float elapsedTime = 0f;
-
-    //    while (elapsedTime < swingDuration)
-    //    {
-    //        batHand.localRotation = Quaternion.Slerp(initialRotation, targetRotation, elapsedTime / swingDuration);
-    //        elapsedTime += Time.deltaTime;
-    //        yield return null;
-    //    }
-
-    //    // 최종 회전 상태 설정
-    //    batHand.localRotation = targetRotation;
-
-    //    // 원래 상태로 복귀 (선택적)
-    //    yield return new WaitForSeconds(0.5f); // 잠시 대기
-    //    elapsedTime = 0f;
-    //    while (elapsedTime < swingDuration)
-    //    {
-    //        batHand.localRotation = Quaternion.Slerp(targetRotation, initialRotation, elapsedTime / swingDuration);
-    //        elapsedTime += Time.deltaTime;
-    //        yield return null;
-    //    }
-
-    //    // 복귀 완료
-    //    batHand.localRotation = initialRotation;
-    //}
 }
 
