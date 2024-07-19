@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Pitcher : MonoBehaviour
-{
+{    
+    //TODO 랜덤하게 일정 시간마다 공 던지는거 추가
+    //TODO 타구의 비거리 측정
+    //TODO 공의 상태에 대한 처리가 필요할 듯함, 포수가 잡았는지, 타격이 되었는지
+
     public GameObject ballPrefab;
     public Transform PitchPoint;
     public Transform CatcherPoint;
@@ -58,14 +62,14 @@ public class Pitcher : MonoBehaviour
 
     void PitchSlider()
     {
-        Vector3 target = CatcherPoint.position + CatcherPoint.right * -0.4f;        
-        Vector3 middlePoint = PitchPoint.position + (CatcherPoint.position - PitchPoint.position) * 0.6f;
+        Vector3 target = CatcherPoint.position + CatcherPoint.right * -0.5f;        
+        Vector3 middlePoint = PitchPoint.position + (CatcherPoint.position - PitchPoint.position) * 0.7f;
         PitchBallToCatcher(PitchPoint.position, middlePoint, target, sliderForce, ePitchType.Slider);
     }
     void PitchSlurve()
     {
-        Vector3 target = CatcherPoint.position + CatcherPoint.right * -0.3f;
-        Vector3 middlePoint = PitchPoint.position + (CatcherPoint.position - PitchPoint.position) * 0.7f;
+        Vector3 target = CatcherPoint.position + CatcherPoint.right * -0.5f;
+        Vector3 middlePoint = PitchPoint.position + (CatcherPoint.position - PitchPoint.position) * 0.8f;
         PitchBallToCatcher(PitchPoint.position, middlePoint, target, sliderForce, ePitchType.Slurve);
     }
 

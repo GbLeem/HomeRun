@@ -19,6 +19,14 @@ public class BallController : MonoBehaviour
     private Vector3 direction2;
     private float additionalForce;
 
+    //공의 상태
+    enum eBallState
+    {
+        flying,
+        hitting,
+        foul,
+    };
+
     public void Initialize(Vector3 middle, Vector3 dir2, float force)
     {
         rb = GetComponent<Rigidbody>();
@@ -27,16 +35,14 @@ public class BallController : MonoBehaviour
         additionalForce = force;
         StartCoroutine(CheckAndApplyForce());
     }
+
     IEnumerator CheckAndApplyForce()
     {
         while (!forceApplied)
-        {
-            // Check if the ball has passed the middle point
-            //if (transform.position.z < middlePoint.z)
+        {            
             if (Vector3.Distance(transform.position, middlePoint) < 0.2f)
             {
                 rb.velocity = Vector3.zero; // Optional: reset velocity
-                //rb.AddForce(direction2 * additionalForce, ForceMode.Impulse);
                 rb.AddForceAtPosition(direction2 * additionalForce, middlePoint, ForceMode.Impulse);
                 forceApplied = true;
             }
@@ -59,6 +65,7 @@ public class BallController : MonoBehaviour
     }
     private void Update()
     {
+        //TODO 타격 된 이후에만 선 그리기
         DrawTrajectory();
     }
 
@@ -98,6 +105,8 @@ public class BallController : MonoBehaviour
             float hitForce = 50f;
 
             rb.AddForce(hitDirection * hitForce, ForceMode.Impulse);
+            
+            //TODO 타격 후에는 중력 적용하기
         }
     }
 }

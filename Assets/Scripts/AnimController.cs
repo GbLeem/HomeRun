@@ -16,9 +16,10 @@ public class AnimController : MonoBehaviour
     private void Update()
     {
         //if(batController.)
-        if(Input.GetKey(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space))
         {
             anim.SetBool("IsSwing", true);
+            anim.SetFloat("swingSpeed", 1f);
             StartCoroutine(ResetSwing());
         }
     }
