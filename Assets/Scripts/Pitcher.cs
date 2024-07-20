@@ -3,19 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Pitcher : MonoBehaviour
-{    
+{
     //TODO 랜덤하게 일정 시간마다 공 던지는거 추가
     //TODO 타구의 비거리 측정
     //TODO 공의 상태에 대한 처리가 필요할 듯함, 포수가 잡았는지, 타격이 되었는지
 
+    public GameManager gameManager;
     public GameObject ballPrefab;
     public Transform PitchPoint;
     public Transform CatcherPoint;
-    private BallController ballController;
+    //private BallController ballController;
 
     public float fastballForce = 30f;
     public float sliderForce = 25f;
     public float forkballForce = 20f;
+
+    //UI 용
+    public float ballDistance = 0f;
+    public int hittingCount = -1;
+
     enum ePitchType
     {
         FastBall,
@@ -24,9 +30,15 @@ public class Pitcher : MonoBehaviour
         ForkBall
     };
 
+    private void Awake()
+    {
+
+    }
     private void Start()
     {
-        ballController = GetComponent<BallController>();
+        gameManager = GetComponent<GameManager>();        
+        //ballController = FindObjectOfType<BallController>();        
+        //ballController = GetComponent<BallController>();
     }
 
     void Update()
@@ -46,18 +58,19 @@ public class Pitcher : MonoBehaviour
         else if(Input.GetKeyDown(KeyCode.D))
         {
             PitchSlurve();
-        }
+        }        
+        //ballDistance = ballController.GetDistanceTo();
     }
 
     private void FixedUpdate()
-    {        
+    {       
     }
 
     void PitchFastBall()
     {
         //Vector3 target = CatcherPoint.position + CatcherPoint.right * -1.0f;
         Vector3 middlePoint = PitchPoint.position + (CatcherPoint.position - PitchPoint.position) * 0.5f;
-        PitchBallToCatcher(PitchPoint.position, middlePoint, CatcherPoint.position, fastballForce, ePitchType.FastBall);
+        PitchBallToCatcher(PitchPoint.position, middlePoint, CatcherPoint.position, fastballForce, ePitchType.FastBall);        
     }
 
     void PitchSlider()
@@ -92,6 +105,7 @@ public class Pitcher : MonoBehaviour
 
         BallController ballController = ball.GetComponent<BallController>();
         ballController.Initialize(middle, direction2, force);
- 
+        if (hittingCount < 10)
+            hittingCount += 1;
     }
 }
