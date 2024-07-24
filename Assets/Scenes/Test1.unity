@@ -620,7 +620,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 389436505}
-  - component: {fileID: 389436504}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -628,31 +627,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &389436504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 389436503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d165f214b9687a343b465cbc5ba2b6c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pitcher: {fileID: 421284487}
-  distanceText: {fileID: 170917929}
-  ballImageList:
-  - {fileID: 961696173}
-  - {fileID: 1341179858}
-  - {fileID: 206698638}
-  - {fileID: 538376567}
-  - {fileID: 1058040678}
-  - {fileID: 1468173324}
-  - {fileID: 1382008471}
-  - {fileID: 1287287937}
-  - {fileID: 1510367115}
-  - {fileID: 1914628318}
 --- !u!4 &389436505
 Transform:
   m_ObjectHideFlags: 0
@@ -897,7 +871,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23169713cf915724b8e95b21cded19a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 389436504}
+  gameManager: {fileID: 0}
   ballPrefab: {fileID: 2853661087222115877, guid: c7b94239dc9bc5e4cb5f8f7e28beddff, type: 3}
   PitchPoint: {fileID: 758122246}
   CatcherPoint: {fileID: 1874155906}
@@ -1786,74 +1760,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 961696171}
   m_CullTransparentMesh: 1
---- !u!1 &984704783
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 984704786}
-  - component: {fileID: 984704785}
-  - component: {fileID: 984704784}
-  m_Layer: 0
-  m_Name: EventSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &984704784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 984704783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
---- !u!114 &984704785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 984704783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
---- !u!4 &984704786
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 984704783}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1009234802
 GameObject:
   m_ObjectHideFlags: 0
@@ -3134,5 +3040,4 @@ SceneRoots:
   - {fileID: 486620959}
   - {fileID: 661465954}
   - {fileID: 320124708}
-  - {fileID: 984704786}
   - {fileID: 389436505}

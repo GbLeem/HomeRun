@@ -36,7 +36,7 @@ public class Pitcher : MonoBehaviour
     }
     private void Start()
     {
-        gameManager = GetComponent<GameManager>();        
+        //gameManager = GetComponent<GameManager>();        
         //ballController = FindObjectOfType<BallController>();        
         //ballController = GetComponent<BallController>();
     }

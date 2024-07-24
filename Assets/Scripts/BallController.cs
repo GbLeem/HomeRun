@@ -14,7 +14,17 @@ public class BallController : MonoBehaviour
         foul,
         done
     };
-   
+    public eBallState getBallState
+    {
+        get
+        {
+            return ballState;
+        }
+        set
+        {
+            ballState = value;
+        }
+    }
     public float lifeTime = 10f;    
     private bool Catching = false;
     public eBallState ballState;
@@ -164,5 +174,4 @@ public class BallController : MonoBehaviour
             rb.useGravity = true;
         }
     }
-
 }
