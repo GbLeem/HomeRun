@@ -6,9 +6,12 @@ using UnityEngine;
 //실제로 치는 동작
 public class Bat : MonoBehaviour
 {
+    //bat data
+    public BatData batData;
+
     //pci anchor ui
     public RectTransform target;
-    private float moveSpeed = 200f;
+    private float moveSpeed = 300f;
 
     //for swing
     public Transform batHand;
@@ -25,8 +28,8 @@ public class Bat : MonoBehaviour
     {
         //batCollider = batHand.GetComponentInChildren<Collider>();
         
-        batCollider = GetComponent<Collider>();
-        batCollider.enabled = false;
+        batCollider = GetComponentInChildren<Collider>();
+        //batCollider.enabled = false;
     }
 
     private void Update()
@@ -66,7 +69,7 @@ public class Bat : MonoBehaviour
 
         // 타겟 이동
         // 타겟은 안보이게 하기
-        batHand.transform.position += batDirection * Time.deltaTime;
+        batHand.transform.position += batDirection * 2f *Time.deltaTime;
 
         //PCI 이동
         target.transform.position += moveDirection * moveSpeed * Time.deltaTime;
@@ -74,7 +77,7 @@ public class Bat : MonoBehaviour
     IEnumerator SwingBat()
     {
         isSwinging = true;
-        batCollider.enabled = true;        
+        //batCollider.enabled = true;
 
         Quaternion originalRotation = batHand.transform.rotation;
         Quaternion targetRotation = originalRotation * Quaternion.Euler(0, -swingAngle, 0);
@@ -82,7 +85,10 @@ public class Bat : MonoBehaviour
         yield return RotateOverTime(originalRotation, targetRotation, swingDuration); //회전
         yield return RotateOverTime(targetRotation, originalRotation, swingDuration); //돌아오기
         isSwinging = false;
-        batCollider.enabled = false;
+
+        //yield return new WaitForSeconds(0.5f);
+
+        //batCollider.enabled = false;
     }
 
     private IEnumerator RotateOverTime(Quaternion fromRotation, Quaternion toRotation, float duration)

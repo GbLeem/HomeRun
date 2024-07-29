@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     private static GameManager m_instance;
     private int distance = 0;
     private int score = 0;
-    public bool isGameOver { get; private set; }
+    public bool isGameOver { get; private set; }  
 
     private void Awake()
     {
@@ -27,8 +27,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
+    }   
     public void AddScore(int newScore)
     {
         if(!isGameOver)

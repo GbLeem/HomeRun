@@ -20,6 +20,7 @@ public class Ball : MonoBehaviour
 {   
     public eBallState ballState { get; set; }
     private Rigidbody rigidBody;
+    public float lifeTime = 3f;
 
     //for draw trajectory
     private LineRenderer lineRenderer;
@@ -39,7 +40,7 @@ public class Ball : MonoBehaviour
 
     private void Start()
     {
-        Destroy(gameObject, 10f);
+        Destroy(gameObject, lifeTime);
 
         ballState = eBallState.none;
 
@@ -69,7 +70,6 @@ public class Ball : MonoBehaviour
         {
             //충돌 방향계산
             Vector3 hitDirection = (transform.position - collision.transform.position).normalized;
-            //공이 충돌하기 시작한 위치 설정
 
             //충돌 방향이 0보다 작으면 파울
             if(Vector3.Dot(hitDirection, homePlateDir) < 0f)
@@ -82,10 +82,12 @@ public class Ball : MonoBehaviour
                 Debug.Log("Hit");
                 ballState = eBallState.hitting;
             }
+
+            //공이 충돌하기 시작한 위치 설정
             ballStartPosition = collision.transform;
 
             //TODO 타이밍에 따른 hit force 적용
-            float hitForce = 50f;
+            float hitForce = 100f;
             rigidBody.AddForce(hitDirection * hitForce, ForceMode.Impulse);
             rigidBody.useGravity = true;
         }        

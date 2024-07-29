@@ -26,11 +26,11 @@ public class BattingController : MonoBehaviour
         batCollider.enabled = false;
 
         //안보이게 만드는 코드
-        MeshRenderer meshRenderer = batHand.GetComponentInChildren<MeshRenderer>();
-        if (meshRenderer != null)
-        {
-            meshRenderer.enabled = false;
-        }
+        //MeshRenderer meshRenderer = batHand.GetComponentInChildren<MeshRenderer>();
+        //if (meshRenderer != null)
+        //{
+        //    meshRenderer.enabled = false;
+        //}
     }
 
     void HandleKeyboardInput()
