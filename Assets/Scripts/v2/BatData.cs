@@ -4,5 +4,5 @@ using UnityEngine;
 public class BatData : ScriptableObject
 {
     //능력치에 따라 다른 batsize
-    public float batSize;       
+    public float batScale;
 }
