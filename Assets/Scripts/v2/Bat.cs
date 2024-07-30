@@ -12,6 +12,8 @@ public class Bat : MonoBehaviour
     //pci anchor UI
     public RectTransform target;
     private float moveSpeed = 300f;
+    public Transform batTransform;
+    public Camera UIcamera;
 
     //for timing UI
     public RectTransform timingUI;
@@ -26,6 +28,7 @@ public class Bat : MonoBehaviour
     public float swingAngle = 120f;
 
 
+
     private void Awake()
     {
     }
@@ -34,6 +37,7 @@ public class Bat : MonoBehaviour
     {
         batCollider = GetComponentInChildren<Collider>();
         batCollider.enabled = false;
+        batTransform = GetComponentInChildren<Transform>();
 
         //Vector2 pivot = new Vector2(1.0f, 0.7f);
         //target.pivot = pivot;
@@ -51,10 +55,17 @@ public class Bat : MonoBehaviour
         {
             //HitTimingUI();
             StartCoroutine(SwingBat());
-            StartCoroutine(SwingUI(5f));
+            StartCoroutine(SwingUI(1f));
         }
     }
 
+    void SettingTargetUIPosition()
+    {
+        if(target != null && batTransform)
+        {
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(target.position);
+        }
+    }
     void HandleKeyboardInput()
     {
         Vector3 moveDirection = Vector3.zero;
@@ -84,7 +95,7 @@ public class Bat : MonoBehaviour
         // 타겟 이동
         // 타겟은 안보이게 하기
         batHand.transform.position += batDirection * 1.5f *Time.deltaTime;
-
+        
         //PCI 이동
         target.transform.position += moveDirection * moveSpeed * Time.deltaTime;
     }
@@ -112,7 +123,7 @@ public class Bat : MonoBehaviour
         //float maxPosition = 100f;
 
         float elapsed = 0f;
-        while(elapsed < duration)
+        while(elapsed < duration && currentPos.y < 100f)
         {
             currentPos.y += 0.5f;
             elapsed += Time.deltaTime;
@@ -131,7 +142,6 @@ public class Bat : MonoBehaviour
         Quaternion originalRotation = batHand.transform.rotation;        
         
         Quaternion targetRotation = originalRotation * Quaternion.Euler(0, -swingAngle, 0);
-
 
         yield return RotateOverTime(originalRotation, targetRotation, swingDuration); //회전
         yield return RotateOverTime(targetRotation, originalRotation, swingDuration); //돌아오기

@@ -58,5 +58,5 @@ public class PitcherV2 : MonoBehaviour
 
         Vector3 randomPoint = strikeZone.position + new Vector3(randomX, randomY, 0f);
         return randomPoint;
-    }   
+    }
 }

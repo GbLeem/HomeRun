@@ -387,6 +387,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   batData: {fileID: 11400000, guid: c6aa40f00c7f5ae4883414cf0b931342, type: 2}
   target: {fileID: 2021520641}
+  batTransform: {fileID: 0}
+  UIcamera: {fileID: 0}
   timingUI: {fileID: 730373974}
   hitTimingUI: {fileID: 2076529085}
   speed: 50
@@ -1208,6 +1210,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 1e6dbe61f6fa5914b85242a8e96f6c20, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 602c66a61aff71f44941d4d1faf34dc0, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
