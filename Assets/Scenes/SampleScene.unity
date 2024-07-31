@@ -1332,6 +1332,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23169713cf915724b8e95b21cded19a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
+  ballPrefab: {fileID: 0}
+  PitchPoint: {fileID: 0}
+  CatcherPoint: {fileID: 0}
+  fastballForce: 30
+  sliderForce: 25
+  forkballForce: 20
+  ballDistance: 0
+  hittingCount: -1
 --- !u!1001 &4263743182720691583
 PrefabInstance:
   m_ObjectHideFlags: 0

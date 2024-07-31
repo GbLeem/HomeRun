@@ -63,9 +63,18 @@ public class Ball : MonoBehaviour
         if(ballState == eBallState.hitting)
         {
             DrawTrajectory();
+
+            //TODO : distance 측정이 끝나는 시간을 정해야함
+            CalculateDistance();
         }
 
         if(ballState == eBallState.done)
+        {            
+            //Debug.Log("destroy");            
+            Destroy(gameObject);
+        }
+
+        if(ballState == eBallState.foul)
         {
             Destroy(gameObject);
         }
@@ -73,15 +82,22 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        //공이 땅에 닿았을때 한 turn 이 끝남
+        if(collision.gameObject.CompareTag("Ground"))
+        {
+            ballState = eBallState.done;
+        }
+
         //공이 배트랑 충돌 발생시
         if(collision.gameObject.CompareTag("Bat"))
         {
             //충돌 방향계산
             Vector3 hitDirection = (transform.position - collision.transform.position).normalized;
 
-            //충돌 방향이 0보다 작으면 파울
+            //ball timing 계산해서 force 적용
             ballTiming = CalculateTiming(homePlateDir, Vector3.up, hitDirection);
 
+            //충돌 방향이 0보다 작으면 파울
             if(Vector3.Dot(hitDirection, homePlateDir) < 0f)            
             {
                 Debug.Log("Foul");
@@ -138,6 +154,19 @@ public class Ball : MonoBehaviour
         return timing;
     }
 
+    void CalculateDistance()
+    {
+        float distance;
+
+        Vector3 curPositionVector = transform.position - ballStartPosition.position;
+        distance = Vector3.Dot(homePlateDir, curPositionVector);
+
+
+        //UI 연동 이렇게 하면된다. 
+        UIManager.instance.UpdateDistanceText(distance);
+        //GameManager gameManager = FindObjectOfType<GameManager>();
+        //gameManager.UpdateDistance(distance);
+    }
     void DrawTrajectory()
     {
         lineRenderer.enabled = true;
@@ -145,5 +174,4 @@ public class Ball : MonoBehaviour
         lineRenderer.positionCount = positions.Count;
         lineRenderer.SetPositions(positions.ToArray());
     }
-
 }

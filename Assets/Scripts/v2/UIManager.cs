@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
     public Text scoreText;
     public Image[] ballImage;
 
-    public void UpdateDistanceText(int distance)
+    public void UpdateDistanceText(float distance)
     {
         distanceText.text = distance + " m";
     }

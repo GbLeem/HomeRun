@@ -27,10 +27,13 @@ public class Bat : MonoBehaviour
     public float swingDuration = 0.2f; // 스윙 시간
     public float swingAngle = 120f;
 
+    //animation
+    public Animator anim;
 
 
     private void Awake()
     {
+
     }
 
     private void Start()
@@ -45,6 +48,14 @@ public class Bat : MonoBehaviour
         float batScale = batData.batScale;
         Vector3 scale = new Vector3(batScale, batScale, batScale);
         target.localScale = scale;
+
+
+        //안보이게 만드는 코드
+        //MeshRenderer meshRenderer = GetComponentInChildren<MeshRenderer>();
+        //if (meshRenderer != null)
+        //{
+        //    meshRenderer.enabled = false;
+        //}
     }
 
     private void Update()
@@ -56,6 +67,11 @@ public class Bat : MonoBehaviour
             //HitTimingUI();
             StartCoroutine(SwingBat());
             StartCoroutine(SwingUI(1f));
+            
+            //swing animation
+            anim.SetBool("IsSwing", true);
+            anim.SetFloat("swingSpeed", 1f);
+            StartCoroutine(ResetSwing());
         }
     }
 
@@ -66,6 +82,7 @@ public class Bat : MonoBehaviour
             Vector3 screenPos = Camera.main.WorldToScreenPoint(target.position);
         }
     }
+
     void HandleKeyboardInput()
     {
         Vector3 moveDirection = Vector3.zero;
@@ -94,7 +111,7 @@ public class Bat : MonoBehaviour
 
         // 타겟 이동
         // 타겟은 안보이게 하기
-        batHand.transform.position += batDirection * 1.5f *Time.deltaTime;
+        batHand.transform.position += batDirection *Time.deltaTime;
         
         //PCI 이동
         target.transform.position += moveDirection * moveSpeed * Time.deltaTime;
@@ -164,5 +181,11 @@ public class Bat : MonoBehaviour
         }
 
         batHand.transform.rotation = toRotation;
+    }
+
+    IEnumerator ResetSwing()
+    {
+        yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
+        anim.SetBool("IsSwing", false);
     }
 }

@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void UpdateDistance(int newDistance)
+    public void UpdateDistance(float newDistance)
     {        
         UIManager.instance.UpdateDistanceText(newDistance);
     }
