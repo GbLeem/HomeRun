@@ -42,8 +42,8 @@ public class Bat : MonoBehaviour
         batCollider.enabled = false;
         batTransform = GetComponentInChildren<Transform>();
 
-        //Vector2 pivot = new Vector2(1.0f, 0.7f);
-        //target.pivot = pivot;
+        Vector2 pivot = new Vector2(0.5f, 1.5f);
+        target.pivot = pivot;
 
         float batScale = batData.batScale;
         Vector3 scale = new Vector3(batScale, batScale, batScale);

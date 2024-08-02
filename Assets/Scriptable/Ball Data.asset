@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b53ed550f77b30b41870cca8dc0acb27, type: 3}
   m_Name: Ball Data
   m_EditorClassIdentifier: 
-  force: 30
+  force: 20
   breakForce: 0
