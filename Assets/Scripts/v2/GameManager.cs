@@ -17,10 +17,9 @@ public class GameManager : MonoBehaviour
     }
 
     private static GameManager m_instance;
-    private int distance = 0;
     private int score = 0;
     public bool isGameOver { get; private set; }  
-
+    
     private void Awake()
     {
         if(m_instance != this)
@@ -28,6 +27,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }   
+    
     public void AddScore(int newScore)
     {
         if(!isGameOver)
@@ -35,10 +35,5 @@ public class GameManager : MonoBehaviour
             score += newScore;
             UIManager.instance.UpdateScoreText(newScore);
         }
-    }
-
-    public void UpdateDistance(float newDistance)
-    {        
-        UIManager.instance.UpdateDistanceText(newDistance);
-    }
+    }      
 }

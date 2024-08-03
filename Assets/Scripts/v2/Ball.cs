@@ -42,8 +42,12 @@ public class Ball : MonoBehaviour
     //ball distance check
     private Transform ballStartPosition;
 
+    //total hitting chance
+    private int curBallCnt = -1;
+    private int tempBallCnt;
+
     private void Awake()
-    {
+    { 
         rigidBody = GetComponent<Rigidbody>();
         lineRenderer = GetComponent<LineRenderer>();
     }
@@ -58,12 +62,22 @@ public class Ball : MonoBehaviour
         lineRenderer.positionCount = 0;
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
+
+        UIManager.instance.ballCount += 1;
     }
 
     private void Update()
     {
+        //어느 순간 써야함 -> 버그가 있다 
+        UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, ballState);   
+        
+        if (ballState == eBallState.homerun)
+        {
+
+        }
+
         //hitting 이후 공의 상태가 flying 
-        if(ballState == eBallState.flying)
+        if (ballState == eBallState.flying)
         {
             DrawTrajectory();
 
@@ -71,16 +85,17 @@ public class Ball : MonoBehaviour
             CalculateDistance();
         }
 
-        if(ballState == eBallState.done)
+        else if(ballState == eBallState.done)
         {            
             //Debug.Log("destroy");
-            Destroy(gameObject, 2f);
+            Destroy(gameObject, 2f);            
         }
 
-        if(ballState == eBallState.foul)
+        else if(ballState == eBallState.foul)
         {
             Destroy(gameObject);
-        }
+
+        }        
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -93,10 +108,7 @@ public class Ball : MonoBehaviour
 
         //공이 배트랑 충돌 발생시
         if(collision.gameObject.CompareTag("Bat"))
-        {
-            //TODO : 코루틴 멈추기
-            
-
+        {            
             //충돌 방향계산
             Vector3 hitDirection = (transform.position - collision.transform.position).normalized;
 
@@ -128,7 +140,7 @@ public class Ball : MonoBehaviour
             else if(ballTiming == eBallTiming.fast)
                 hitForce = 50f;
 
-            Debug.Log(hitForce);
+            //Debug.Log(hitForce);
 
             rigidBody.AddForce(hitDirection * hitForce, ForceMode.Impulse);
             rigidBody.useGravity = true;
@@ -185,7 +197,8 @@ public class Ball : MonoBehaviour
     {
         if (other.gameObject.CompareTag("HomeRun"))
         {
-            Debug.Log("homerun");
+            //Debug.Log("homerun");
+            ballState = eBallState.homerun;
             UIManager.instance.ShowHomeRunText();
         }
     }

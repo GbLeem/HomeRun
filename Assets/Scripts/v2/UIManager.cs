@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -23,17 +22,20 @@ public class UIManager : MonoBehaviour
     public Text distanceText;
     public Text scoreText;
     public Text homeRunText;
+    
     public Image[] ballImage;
+    public int ballCount = 0;
 
     public RectTransform timingUI;
     public RectTransform batUI;
     public float duration = 1f;
 
+    //homerun text delay time
     private float displayTime = 1.5f;
-
+    
     public void UpdateDistanceText(float distance)
     {
-        distanceText.text = distance + " m";
+        distanceText.text = distance/5f + " m";
     }
 
     public void UpdateScoreText(int newScore)
@@ -76,17 +78,26 @@ public class UIManager : MonoBehaviour
         batUI.anchoredPosition = new Vector2(0, -100f);
     }
 
-    public void UpdateBallImage(int maxBallCount, int ballUsedCount, BallController.eBallState ballState)
+    public void UpdateBallImage(int ballIdx, eBallState ballState)
     {
-        //쳤으면, 
-        if (ballState == BallController.eBallState.hitting)
+        //foul 일 때
+        if(ballState == eBallState.foul)
         {
-            ballImage[ballUsedCount].color = new Color(0, 1, 0, 0.5f);
+            ballImage[ballIdx - 1].color = new Color(1, 0, 0, 0.5f);
         }
-        //못치거나 foul일 때  
+        //쳤으면, 
+        if (ballState == eBallState.flying)
+        {
+            ballImage[ballIdx - 1].color = new Color(0, 1, 0, 0.5f);
+        }
+        else if(ballState == eBallState.homerun)
+        {
+            ballImage[ballIdx - 1].color = new Color(0, 0, 1, 0.5f);
+        }
+        //못침
         else
         {
-            ballImage[ballUsedCount].color = new Color(1, 0, 0, 0.5f);
+            ballImage[ballIdx - 1].color = new Color(1, 0, 0, 0.5f);
         }
     }
 }

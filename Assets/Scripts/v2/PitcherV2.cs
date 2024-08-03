@@ -25,9 +25,7 @@ public class PitcherV2 : MonoBehaviour
     private void Start()
     {
         pitcherAnimator.SetTrigger("Pitch");
-        //InvokeRepeating("Pitching", 10f, 10f); 
     }
-
 
     //현재 이 함수가 animation event를 통해서 실행되고 있음
     void Pitching()

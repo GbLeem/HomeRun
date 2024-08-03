@@ -138,37 +138,7 @@ public class Bat : MonoBehaviour
         
         //PCI 이동
         target.transform.position += moveDirection * moveSpeed * Time.deltaTime;
-    }
-
-    //private void HitTimingUI()
-    //{
-    //    Vector2 currentPos = hitTimingUI.anchoredPosition;
-    //    float baseHeight = timingUI.rect.height;
-    //    float barHeight = hitTimingUI.rect.height;
-
-    //    float targetY = baseHeight;
-    //    currentPos.y += speed * Time.deltaTime;
-    //    //currentPos.y = Mathf.Clamp(currentPos.y, -baseHeight / 2 + barHeight / 2, targetY);
-
-    //    hitTimingUI.anchoredPosition = currentPos;        
-    //}
-
-    //TODO 배팅 하면, UI 움직이게
-    //IEnumerator SwingUI(float duration)
-    //{
-    //    Vector2 currentPos = hitTimingUI.anchoredPosition;
-
-    //    float elapsed = 0f;
-    //    while(elapsed < duration && currentPos.y < 100f)
-    //    {
-    //        currentPos.y += 0.8f;
-    //        elapsed += Time.deltaTime;
-    //        hitTimingUI.anchoredPosition = currentPos;
-    //        yield return null;
-    //    }
-
-    //    hitTimingUI.anchoredPosition = new Vector2(0f, -100f);
-    //}
+    }    
 
     IEnumerator SwingBat()
     {
@@ -182,8 +152,6 @@ public class Bat : MonoBehaviour
         yield return RotateOverTime(originalRotation, targetRotation, swingDuration); //회전
         yield return RotateOverTime(targetRotation, originalRotation, swingDuration); //돌아오기
         isSwinging = false;
-
-        //yield return new WaitForSeconds(0.5f);
 
         batCollider.enabled = false;
     }
@@ -206,7 +174,5 @@ public class Bat : MonoBehaviour
     {        
         yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
         anim.SetBool("IsSwing", false);
-    }
-
-    
+    }    
 }
