@@ -19,6 +19,8 @@ public class Bat : MonoBehaviour
     public RectTransform timingUI;
     public RectTransform hitTimingUI;
     public float speed = 5f;
+    public IEnumerator coroutine;
+
 
     //for swing
     public Transform batHand;
@@ -30,10 +32,12 @@ public class Bat : MonoBehaviour
     //animation
     public Animator anim;
 
+    //Ball state
+    private Ball ball;
 
     private void Awake()
     {
-
+        ball = FindObjectOfType<Ball>();
     }
 
     private void Start()
@@ -49,29 +53,47 @@ public class Bat : MonoBehaviour
         Vector3 scale = new Vector3(batScale, batScale, batScale);
         target.localScale = scale;
 
-
         //안보이게 만드는 코드
-        //MeshRenderer meshRenderer = GetComponentInChildren<MeshRenderer>();
-        //if (meshRenderer != null)
-        //{
-        //    meshRenderer.enabled = false;
-        //}
-    }
+        MeshRenderer meshRenderer = GetComponentInChildren<MeshRenderer>();
+        if (meshRenderer != null)
+        {
+            meshRenderer.enabled = false;
+        }
+
+    }        
 
     private void Update()
     {
+        ball = FindObjectOfType<Ball>();
+
         HandleKeyboardInput();
 
         if(Input.GetKeyDown(KeyCode.Space) && !isSwinging)
         {
             //HitTimingUI();
             StartCoroutine(SwingBat());
-            StartCoroutine(SwingUI(1f));
-            
+            //StartCoroutine(SwingUI(1f));
+            coroutine = UIManager.instance.SwingUI();
+            StartCoroutine(coroutine);
+
+            //NEW
+            //UIManager.instance.SwingBatUI(batTransform.eulerAngles.y/100f);
+
             //swing animation
             anim.SetBool("IsSwing", true);
-            anim.SetFloat("swingSpeed", 1f);
+            anim.SetFloat("swingSpeed", 1.5f);
             StartCoroutine(ResetSwing());
+        }
+
+        if (ball != null)
+        {
+            if(ball.ballState == eBallState.hitting || ball.ballState == eBallState.foul)
+            {
+                //Debug.Log("INTO");
+                StopCoroutine(coroutine);
+                StartCoroutine(UIManager.instance.ResetSwingUI());
+                ball.ballState = eBallState.none;
+            }
         }
     }
 
@@ -111,7 +133,7 @@ public class Bat : MonoBehaviour
 
         // 타겟 이동
         // 타겟은 안보이게 하기
-        batHand.transform.position += batDirection *Time.deltaTime;
+        batHand.transform.position += batDirection * Time.deltaTime;
         
         //PCI 이동
         target.transform.position += moveDirection * moveSpeed * Time.deltaTime;
@@ -131,25 +153,21 @@ public class Bat : MonoBehaviour
     //}
 
     //TODO 배팅 하면, UI 움직이게
-    IEnumerator SwingUI(float duration)
-    {
-        Vector2 currentPos = hitTimingUI.anchoredPosition;
-        Vector2 tempPos = currentPos;
+    //IEnumerator SwingUI(float duration)
+    //{
+    //    Vector2 currentPos = hitTimingUI.anchoredPosition;
 
-        //최대 100까지
-        //float maxPosition = 100f;
+    //    float elapsed = 0f;
+    //    while(elapsed < duration && currentPos.y < 100f)
+    //    {
+    //        currentPos.y += 0.8f;
+    //        elapsed += Time.deltaTime;
+    //        hitTimingUI.anchoredPosition = currentPos;
+    //        yield return null;
+    //    }
 
-        float elapsed = 0f;
-        while(elapsed < duration && currentPos.y < 100f)
-        {
-            currentPos.y += 0.5f;
-            elapsed += Time.deltaTime;
-            hitTimingUI.anchoredPosition = currentPos;
-            yield return null;
-        }
-
-        hitTimingUI.anchoredPosition = tempPos;
-    }
+    //    hitTimingUI.anchoredPosition = new Vector2(0f, -100f);
+    //}
 
     IEnumerator SwingBat()
     {
@@ -184,8 +202,10 @@ public class Bat : MonoBehaviour
     }
 
     IEnumerator ResetSwing()
-    {
+    {        
         yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
         anim.SetBool("IsSwing", false);
     }
+
+    
 }

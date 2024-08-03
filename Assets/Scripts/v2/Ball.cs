@@ -91,6 +91,9 @@ public class Ball : MonoBehaviour
         //공이 배트랑 충돌 발생시
         if(collision.gameObject.CompareTag("Bat"))
         {
+            //TODO : 코루틴 멈추기
+            
+
             //충돌 방향계산
             Vector3 hitDirection = (transform.position - collision.transform.position).normalized;
 
@@ -149,7 +152,7 @@ public class Ball : MonoBehaviour
         else
             timing = eBallTiming.late;
 
-        Debug.Log("Angle : " + angle + "Timing : " + timing);
+        //Debug.Log("Angle : " + angle + "Timing : " + timing);
         
         return timing;
     }
