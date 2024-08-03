@@ -22,11 +22,14 @@ public class UIManager : MonoBehaviour
 
     public Text distanceText;
     public Text scoreText;
+    public Text homeRunText;
     public Image[] ballImage;
 
     public RectTransform timingUI;
     public RectTransform batUI;
     public float duration = 1f;
+
+    private float displayTime = 1.5f;
 
     public void UpdateDistanceText(float distance)
     {
@@ -37,21 +40,18 @@ public class UIManager : MonoBehaviour
     {
         scoreText.text = "Score : " + newScore;
     }
+    public void ShowHomeRunText()
+    {
+        homeRunText.gameObject.SetActive(true);
+        homeRunText.text = "HOME RUN";
+        StartCoroutine(HideTextAfterDelay());
+    }
 
-    //public void SwingBatUI(float speed)
-    //{
-    //    Vector2 curPos = batUI.anchoredPosition;
-
-    //    curPos.y = speed;
-
-    //    batUI.anchoredPosition = curPos;
-    //}
-
-    //public void StopResetBatUI()
-    //{
-    //    batUI.anchoredPosition = new Vector2(0f, -100f);
-    //}
-
+    private IEnumerator HideTextAfterDelay()
+    {
+        yield return new WaitForSeconds(displayTime);
+        homeRunText.gameObject.SetActive(false);
+    }
     public IEnumerator SwingUI()
     {
         //yield return null;
@@ -66,8 +66,8 @@ public class UIManager : MonoBehaviour
             yield return null;
         }
 
+        //이건 타격이 안되었을때 reset
         batUI.anchoredPosition = new Vector2(0f, -100f);        
-        //ResetSwingUI();
     }    
 
     public IEnumerator ResetSwingUI()

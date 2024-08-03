@@ -8,6 +8,7 @@ TagManager:
   - Ball
   - Bat
   - Ground
+  - HomeRun
   layers:
   - Default
   - TransparentFX

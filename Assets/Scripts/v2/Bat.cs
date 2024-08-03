@@ -87,12 +87,13 @@ public class Bat : MonoBehaviour
 
         if (ball != null)
         {
+            //쳤을때 체크 하기 -> ui 조정
             if(ball.ballState == eBallState.hitting || ball.ballState == eBallState.foul)
             {
                 //Debug.Log("INTO");
                 StopCoroutine(coroutine);
                 StartCoroutine(UIManager.instance.ResetSwingUI());
-                ball.ballState = eBallState.none;
+                ball.ballState = eBallState.flying;
             }
         }
     }

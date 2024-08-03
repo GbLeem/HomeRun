@@ -5,9 +5,11 @@ using UnityEngine;
 public enum eBallState
 {
     none,
+    flying, 
 
     hitting,
     foul,
+    homerun,
 
     strike,
     ball,
@@ -60,7 +62,8 @@ public class Ball : MonoBehaviour
 
     private void Update()
     {
-        if(ballState == eBallState.hitting)
+        //hitting 이후 공의 상태가 flying 
+        if(ballState == eBallState.flying)
         {
             DrawTrajectory();
 
@@ -70,8 +73,8 @@ public class Ball : MonoBehaviour
 
         if(ballState == eBallState.done)
         {            
-            //Debug.Log("destroy");            
-            Destroy(gameObject);
+            //Debug.Log("destroy");
+            Destroy(gameObject, 2f);
         }
 
         if(ballState == eBallState.foul)
@@ -85,7 +88,7 @@ public class Ball : MonoBehaviour
         //공이 땅에 닿았을때 한 turn 이 끝남
         if(collision.gameObject.CompareTag("Ground"))
         {
-            ballState = eBallState.done;
+            ballState = eBallState.done;            
         }
 
         //공이 배트랑 충돌 발생시
@@ -119,17 +122,17 @@ public class Ball : MonoBehaviour
             float hitForce = 50f;
 
             if (ballTiming == eBallTiming.good)
-                hitForce = 150f;
+                hitForce = 80f;
             else if (ballTiming == eBallTiming.late)
-                hitForce = 50f;
+                hitForce = 30f;
             else if(ballTiming == eBallTiming.fast)
-                hitForce = 100f;
+                hitForce = 50f;
 
             Debug.Log(hitForce);
 
             rigidBody.AddForce(hitDirection * hitForce, ForceMode.Impulse);
             rigidBody.useGravity = true;
-        }        
+        }               
     }
 
     private eBallTiming CalculateTiming(Vector3 originDir, Vector3 upDir, Vector3 hitDir)
@@ -176,5 +179,14 @@ public class Ball : MonoBehaviour
         positions.Add(transform.position);
         lineRenderer.positionCount = positions.Count;
         lineRenderer.SetPositions(positions.ToArray());
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("HomeRun"))
+        {
+            Debug.Log("homerun");
+            UIManager.instance.ShowHomeRunText();
+        }
     }
 }
