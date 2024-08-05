@@ -32,6 +32,9 @@ public class UIManager : MonoBehaviour
 
     //homerun text delay time
     private float displayTime = 1.5f;
+
+    //GameOver
+    public GameObject gameOverUI;
     
     public void UpdateDistanceText(float distance)
     {
@@ -62,7 +65,7 @@ public class UIManager : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < duration && currentPos.y < 100f)
         {
-            currentPos.y += 1.5f; //이 값을 임의로 바꾸는 중, 나중에 변수로 바꿔주기
+            currentPos.y += 1.0f; //이 값을 임의로 바꾸는 중, 나중에 변수로 바꿔주기
             elapsed += Time.deltaTime;
             batUI.anchoredPosition = currentPos;
             yield return null;
@@ -99,5 +102,12 @@ public class UIManager : MonoBehaviour
         {
             ballImage[ballIdx - 1].color = new Color(1, 0, 0, 0.5f);
         }
+    }
+
+    public void GameOver()
+    {
+        //TODO 게임 멈추고, 
+        Time.timeScale = 0;
+        gameOverUI.SetActive(true);
     }
 }

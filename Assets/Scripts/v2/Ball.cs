@@ -45,11 +45,12 @@ public class Ball : MonoBehaviour
     //total hitting chance
     private int curBallCnt = -1;
     private int tempBallCnt;
+    private bool bIsShowUI;
 
     private void Awake()
     { 
         rigidBody = GetComponent<Rigidbody>();
-        lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer = GetComponent<LineRenderer>();        
     }
 
     private void Start()
@@ -64,16 +65,29 @@ public class Ball : MonoBehaviour
         lineRenderer.endWidth = 0.1f;
 
         UIManager.instance.ballCount += 1;
+
+        if(UIManager.instance.ballCount > 10)
+        {
+            UIManager.instance.GameOver();
+        }
+    }
+    private void OnDestroy()
+    {
+        ballState = eBallState.none;
     }
 
     private void Update()
     {
         //어느 순간 써야함 -> 버그가 있다 
-        UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, ballState);   
-        
+        if (bIsShowUI)
+        {
+            UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, ballState);
+            bIsShowUI = false;
+        }
+
         if (ballState == eBallState.homerun)
         {
-
+            //UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, ballState);
         }
 
         //hitting 이후 공의 상태가 flying 
@@ -87,7 +101,6 @@ public class Ball : MonoBehaviour
 
         else if(ballState == eBallState.done)
         {            
-            //Debug.Log("destroy");
             Destroy(gameObject, 2f);            
         }
 
@@ -100,6 +113,8 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        bIsShowUI = true;
+
         //공이 땅에 닿았을때 한 turn 이 끝남
         if(collision.gameObject.CompareTag("Ground"))
         {
@@ -145,7 +160,7 @@ public class Ball : MonoBehaviour
             rigidBody.AddForce(hitDirection * hitForce, ForceMode.Impulse);
             rigidBody.useGravity = true;
         }               
-    }
+    }   
 
     private eBallTiming CalculateTiming(Vector3 originDir, Vector3 upDir, Vector3 hitDir)
     {
@@ -200,6 +215,10 @@ public class Ball : MonoBehaviour
             //Debug.Log("homerun");
             ballState = eBallState.homerun;
             UIManager.instance.ShowHomeRunText();
+            
+            //홈런친 순간 적용
+            UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, ballState);
+            bIsShowUI = false;
         }
     }
 }
