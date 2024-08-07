@@ -76,6 +76,12 @@ public class UIManager : MonoBehaviour
         timingText.gameObject.SetActive(false);
     }
 
+    private IEnumerator delayTimeSomeSecondsAndGameOver(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        Time.timeScale = 0;
+        gameOverUI.SetActive(true);
+    }
     public IEnumerator SwingUI()
     {
         //yield return null;
@@ -130,8 +136,7 @@ public class UIManager : MonoBehaviour
 
     public void GameOver()
     {
-        Time.timeScale = 0;
-        gameOverUI.SetActive(true);
+        StartCoroutine(delayTimeSomeSecondsAndGameOver(3f));                
     }
 
     public eBallTiming CalculateTimingByUI()
