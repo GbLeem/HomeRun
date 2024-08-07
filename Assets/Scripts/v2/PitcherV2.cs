@@ -12,7 +12,7 @@ public class PitcherV2 : MonoBehaviour
 
     //랜덤 위치
     public Transform strikeZone;
-    public Vector2 strikeZoneSize;
+    private Vector2 strikeZoneSize;
 
     //애니메이션
     private Animator pitcherAnimator;
@@ -25,6 +25,8 @@ public class PitcherV2 : MonoBehaviour
     private void Start()
     {
         pitcherAnimator.SetTrigger("Pitch");
+
+        strikeZoneSize = ballData[0].StrikeZoneSize;
     }
 
     //현재 이 함수가 animation event를 통해서 실행되고 있음
