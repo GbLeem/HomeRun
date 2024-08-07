@@ -70,14 +70,9 @@ public class Bat : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Space) && !isSwinging)
         {
-            //HitTimingUI();
             StartCoroutine(SwingBat());
-            //StartCoroutine(SwingUI(1f));
             coroutine = UIManager.instance.SwingUI();
             StartCoroutine(coroutine);
-
-            //NEW
-            //UIManager.instance.SwingBatUI(batTransform.eulerAngles.y/100f);
 
             //swing animation
             anim.SetBool("IsSwing", true);
@@ -90,21 +85,15 @@ public class Bat : MonoBehaviour
             //쳤을때 체크 하기 -> ui 조정
             if(ball.ballState == eBallState.hitting || ball.ballState == eBallState.foul)
             {
-                //Debug.Log("INTO");
                 StopCoroutine(coroutine);
                 StartCoroutine(UIManager.instance.ResetSwingUI());
+
+                //TODO 타이밍 계산 함수 바꾸기
+                //UIManager.instance.CalculateTimingByUI();
                 ball.ballState = eBallState.flying;
             }
         }
-    }
-
-    void SettingTargetUIPosition()
-    {
-        if(target != null && batTransform)
-        {
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(target.position);
-        }
-    }
+    }    
 
     void HandleKeyboardInput()
     {

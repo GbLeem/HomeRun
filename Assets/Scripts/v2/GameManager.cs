@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance
+    public static GameManager gameinstance
     {
         get
         {
-            if(m_instance == null)
+            if(m_gameinstance == null)
             {
-                m_instance = FindObjectOfType<GameManager>();
+                m_gameinstance = FindObjectOfType<GameManager>();
             }
-            return m_instance;
+            return m_gameinstance;
         }
     }
 
-    private static GameManager m_instance;
+    private static GameManager m_gameinstance;
     private int score = 0;
     public bool isGameOver { get; private set; }  
     
     private void Awake()
     {
-        if(m_instance != this)
+        if(m_gameinstance != this)
         {
             Destroy(gameObject);
         }

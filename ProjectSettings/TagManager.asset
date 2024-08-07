@@ -4,11 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Strike
-  - Ball
   - Bat
   - Ground
   - HomeRun
+  - StrikeZone
+  - Foul
   layers:
   - Default
   - TransparentFX

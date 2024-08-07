@@ -4,17 +4,17 @@ using UnityEngine;
 
 public enum eBallState
 {
-    none,
-    flying, 
+    none,       //일반 상태
+    flying,     //쳐서 날아가는 상태
 
-    hitting,
-    foul,
-    homerun,
+    hitting,    //쳣을때
+    foul,       //foul
+    homerun,    //homerun
 
-    strike,
+    strike,     
     ball,
 
-    done,
+    done,       //처리가 끝남
 };
 
 public enum eBallTiming
@@ -30,7 +30,7 @@ public class Ball : MonoBehaviour
     public eBallTiming ballTiming { get; private set; }
 
     private Rigidbody rigidBody;
-    public float lifeTime = 3f;
+    public float lifeTime = 10f;
 
     //for draw trajectory
     private LineRenderer lineRenderer;
@@ -42,59 +42,56 @@ public class Ball : MonoBehaviour
     //ball distance check
     private Transform ballStartPosition;
 
-    //total hitting chance
-    private int curBallCnt = -1;
-    private int tempBallCnt;
-    private bool bIsShowUI;
+    //total hitting chance    
+    private bool bIsShowUI = false;
 
     private void Awake()
     { 
         rigidBody = GetComponent<Rigidbody>();
         lineRenderer = GetComponent<LineRenderer>();        
     }
-
+    private void OnDestroy()
+    {
+        ballState = eBallState.done;
+    }
     private void Start()
     {
         Destroy(gameObject, lifeTime);
 
+        //공이 처음에는 none 상태로 시작함
         ballState = eBallState.none;
 
+        //line renderer 처리
         lineRenderer.enabled = false;
         lineRenderer.positionCount = 0;
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
-
-        UIManager.instance.ballCount += 1;
-
-        if(UIManager.instance.ballCount > 10)
-        {
-            UIManager.instance.GameOver();
-        }
-    }
-    private void OnDestroy()
-    {
-        ballState = eBallState.none;
-    }
+        
+        //total 공 갯수 체크
+        UIManager.instance.ballCount += 1;        
+    }    
 
     private void Update()
     {
-        //어느 순간 써야함 -> 버그가 있다 
-        if (bIsShowUI)
+        //공 다쓰고, done 일 때
+        if (UIManager.instance.ballCount == 10)
         {
-            UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, ballState);
-            bIsShowUI = false;
-        }
+            Debug.Log(ballState);            
 
-        if (ballState == eBallState.homerun)
-        {
-            //UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, ballState);
+            if(ballState == eBallState.done)
+                UIManager.instance.GameOver();
         }
 
         //hitting 이후 공의 상태가 flying 
         if (ballState == eBallState.flying)
         {
-            DrawTrajectory();
+            if(bIsShowUI)
+            {
+                UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, ballState);
+                bIsShowUI = false;
+            }
 
+            DrawTrajectory();
             //TODO : distance 측정이 끝나는 시간을 정해야함
             CalculateDistance();
         }
@@ -106,9 +103,49 @@ public class Ball : MonoBehaviour
 
         else if(ballState == eBallState.foul)
         {
-            Destroy(gameObject);
+            UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, eBallState.foul);
+            bIsShowUI = false;
 
+            Destroy(gameObject);
         }        
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        //맨 처음에 왜 인식이 안되는것? -> collider 너무 작아서
+        bIsShowUI = false;
+
+        if (other.gameObject.CompareTag("StrikeZone"))
+        {
+            //Debug.Log("Strike OK");
+            ballState = eBallState.strike;
+            UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, eBallState.strike);
+
+            //TODO destroy 하지말고 그냥 ball state로 처리하기
+            //Destroy(gameObject, 1f);       
+            ballState = eBallState.done;
+        }
+
+        if (other.gameObject.CompareTag("HomeRun"))
+        {
+            ballState = eBallState.homerun;
+            UIManager.instance.ShowHomeRunText();
+
+            //홈런친 순간 적용
+            UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, eBallState.homerun);
+
+            //Destroy(gameObject, 0.5f);
+            ballState = eBallState.done;
+        }
+
+        if(other.gameObject.CompareTag("Foul"))
+        {
+            ballState = eBallState.foul;
+            UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, eBallState.foul);
+
+            //
+            Destroy(gameObject, 0.5f);
+            ballState = eBallState.done;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -118,7 +155,7 @@ public class Ball : MonoBehaviour
         //공이 땅에 닿았을때 한 turn 이 끝남
         if(collision.gameObject.CompareTag("Ground"))
         {
-            ballState = eBallState.done;            
+            ballState = eBallState.done;
         }
 
         //공이 배트랑 충돌 발생시
@@ -128,10 +165,15 @@ public class Ball : MonoBehaviour
             Vector3 hitDirection = (transform.position - collision.transform.position).normalized;
 
             //ball timing 계산해서 force 적용
-            ballTiming = CalculateTiming(homePlateDir, Vector3.up, hitDirection);
+
+            //타이밍 계산 함수 수정
+            //ballTiming = CalculateTiming(homePlateDir, Vector3.up, hitDirection);
+            ballTiming = UIManager.instance.CalculateTimingByUI();
+
+            UIManager.instance.ShowTimingText(ballTiming);
 
             //충돌 방향이 0보다 작으면 파울
-            if(Vector3.Dot(hitDirection, homePlateDir) < 0f)            
+            if (Vector3.Dot(hitDirection, homePlateDir) < 0.0001f)            
             {
                 Debug.Log("Foul");
                 ballState = eBallState.foul;
@@ -145,23 +187,22 @@ public class Ball : MonoBehaviour
             //공이 충돌하기 시작한 위치 설정
             ballStartPosition = collision.transform;
 
-            //TODO 타이밍에 따른 hit force 적용
+            //타이밍에 따른 hit force 적용
             float hitForce = 50f;
 
             if (ballTiming == eBallTiming.good)
-                hitForce = 80f;
-            else if (ballTiming == eBallTiming.late)
-                hitForce = 30f;
-            else if(ballTiming == eBallTiming.fast)
                 hitForce = 50f;
-
-            //Debug.Log(hitForce);
+            else if (ballTiming == eBallTiming.late)
+                hitForce = 15f;
+            else if(ballTiming == eBallTiming.fast)
+                hitForce = 25f;
 
             rigidBody.AddForce(hitDirection * hitForce, ForceMode.Impulse);
             rigidBody.useGravity = true;
         }               
     }   
 
+    //이제는 안쓰는 함수
     private eBallTiming CalculateTiming(Vector3 originDir, Vector3 upDir, Vector3 hitDir)
     {
         eBallTiming timing;
@@ -181,8 +222,6 @@ public class Ball : MonoBehaviour
             timing = eBallTiming.good;
         else
             timing = eBallTiming.late;
-
-        //Debug.Log("Angle : " + angle + "Timing : " + timing);
         
         return timing;
     }
@@ -191,34 +230,18 @@ public class Ball : MonoBehaviour
     {
         float distance;
 
-        Vector3 curPositionVector = transform.position - ballStartPosition.position;
-        distance = Vector3.Dot(homePlateDir, curPositionVector);
+        //distance 계산
+        distance = Vector3.Distance(transform.position, ballStartPosition.position);
 
-
-        //UI 연동 이렇게 하면된다. 
-        UIManager.instance.UpdateDistanceText(distance);
-        //GameManager gameManager = FindObjectOfType<GameManager>();
-        //gameManager.UpdateDistance(distance);
+        //UI 연동
+        UIManager.instance.UpdateDistanceText(distance);        
     }
+
     void DrawTrajectory()
-    {
+    {        
         lineRenderer.enabled = true;
         positions.Add(transform.position);
         lineRenderer.positionCount = positions.Count;
         lineRenderer.SetPositions(positions.ToArray());
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("HomeRun"))
-        {
-            //Debug.Log("homerun");
-            ballState = eBallState.homerun;
-            UIManager.instance.ShowHomeRunText();
-            
-            //홈런친 순간 적용
-            UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, ballState);
-            bIsShowUI = false;
-        }
-    }
+    }    
 }
