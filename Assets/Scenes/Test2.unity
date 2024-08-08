@@ -3013,8 +3013,8 @@ Transform:
   m_GameObject: {fileID: 1034891051}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.109395, y: 42.84838, z: -4.735359}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 10.109395, y: 60, z: -4.735359}
+  m_LocalScale: {x: 1, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 278236986}
@@ -5168,7 +5168,6 @@ MonoBehaviour:
   ballData:
   - {fileID: 11400000, guid: 739b68fc4b8136e4d8779f5ab52da419, type: 2}
   strikeZone: {fileID: 788247678}
-  strikeZoneSize: {x: 0.1, y: 0.1}
 --- !u!1 &2076529084
 GameObject:
   m_ObjectHideFlags: 0
@@ -5313,8 +5312,8 @@ Transform:
   m_GameObject: {fileID: 2141895639}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000077942095, y: -0.015845828, z: -0.0022747286, w: 0.9998719}
-  m_LocalPosition: {x: -1.2, y: 114.2, z: -27.1}
-  m_LocalScale: {x: 1, y: 4, z: 1}
+  m_LocalPosition: {x: -1.2, y: 410, z: -27.1}
+  m_LocalScale: {x: 1, y: 15, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1027881741}

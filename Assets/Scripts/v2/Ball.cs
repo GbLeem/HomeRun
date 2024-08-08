@@ -15,6 +15,7 @@ public enum eBallState
     ball,
 
     done,       //처리가 끝남
+    finish,
 };
 
 public enum eBallTiming
@@ -30,7 +31,6 @@ public class Ball : MonoBehaviour
     public eBallTiming ballTiming { get; private set; }
 
     private Rigidbody rigidBody;
-    public float lifeTime = 10f;
 
     //for draw trajectory
     private LineRenderer lineRenderer;
@@ -48,15 +48,18 @@ public class Ball : MonoBehaviour
     private void Awake()
     { 
         rigidBody = GetComponent<Rigidbody>();
-        lineRenderer = GetComponent<LineRenderer>();        
+        lineRenderer = GetComponent<LineRenderer>();
+
+        ballState = eBallState.none;
     }
     private void OnDestroy()
     {
-        ballState = eBallState.done;
+        //ballState = eBallState.done;
     }
     private void Start()
     {
-        Destroy(gameObject, lifeTime);
+        //공 멀리 뜰때 버그 나는 것 이걸로 수정함 life time 떄문인듯
+        //Destroy(gameObject, lifeTime);
 
         //공이 처음에는 none 상태로 시작함
         ballState = eBallState.none;
@@ -76,9 +79,7 @@ public class Ball : MonoBehaviour
         //공 다쓰고, done 일 때
         if (UIManager.instance.ballCount == 10)
         {
-            Debug.Log(ballState);            
-
-            if(ballState == eBallState.done)
+            if(ballState == eBallState.finish)
                 UIManager.instance.GameOver();
         }
 
@@ -97,17 +98,10 @@ public class Ball : MonoBehaviour
         }
 
         else if(ballState == eBallState.done)
-        {            
-            Destroy(gameObject, 2f);            
-        }
-
-        else if(ballState == eBallState.foul)
         {
-            UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, eBallState.foul);
-            bIsShowUI = false;
-
-            Destroy(gameObject);
-        }        
+            ballState = eBallState.finish;
+            Destroy(gameObject, 2f);            
+        }     
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -121,7 +115,6 @@ public class Ball : MonoBehaviour
             UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, eBallState.strike);
 
             //TODO destroy 하지말고 그냥 ball state로 처리하기
-            //Destroy(gameObject, 1f);       
             ballState = eBallState.done;
         }
 
@@ -133,7 +126,6 @@ public class Ball : MonoBehaviour
             //홈런친 순간 적용
             UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, eBallState.homerun);
 
-            //Destroy(gameObject, 0.5f);
             ballState = eBallState.done;
         }
 
@@ -142,8 +134,6 @@ public class Ball : MonoBehaviour
             ballState = eBallState.foul;
             UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, eBallState.foul);
 
-            //
-            Destroy(gameObject, 0.5f);
             ballState = eBallState.done;
         }
     }
@@ -175,12 +165,12 @@ public class Ball : MonoBehaviour
             //충돌 방향이 0보다 작으면 파울
             if (Vector3.Dot(hitDirection, homePlateDir) < 0.0001f)            
             {
-                Debug.Log("Foul");
+                //Debug.Log("Foul");
                 ballState = eBallState.foul;
             }
             else
             {
-                Debug.Log("Hit");
+                //Debug.Log("Hit");
                 ballState = eBallState.hitting;
             }
 
@@ -203,28 +193,28 @@ public class Ball : MonoBehaviour
     }   
 
     //이제는 안쓰는 함수
-    private eBallTiming CalculateTiming(Vector3 originDir, Vector3 upDir, Vector3 hitDir)
-    {
-        eBallTiming timing;
-        float upAngle = Vector3.Dot(upDir, hitDir);
+    //private eBallTiming CalculateTiming(Vector3 originDir, Vector3 upDir, Vector3 hitDir)
+    //{
+    //    eBallTiming timing;
+    //    float upAngle = Vector3.Dot(upDir, hitDir);
 
-        //땅으로 가는 타구
-        if(upAngle < 0f)
-        {
-            timing = eBallTiming.fast;
-            return timing;
-        }
+    //    //땅으로 가는 타구
+    //    if(upAngle < 0f)
+    //    {
+    //        timing = eBallTiming.fast;
+    //        return timing;
+    //    }
         
-        //아닌 경우
-        float angle = Vector3.Angle(originDir, hitDir);
+    //    //아닌 경우
+    //    float angle = Vector3.Angle(originDir, hitDir);
         
-        if (angle > 15f && angle < 40f)
-            timing = eBallTiming.good;
-        else
-            timing = eBallTiming.late;
+    //    if (angle > 15f && angle < 40f)
+    //        timing = eBallTiming.good;
+    //    else
+    //        timing = eBallTiming.late;
         
-        return timing;
-    }
+    //    return timing;
+    //}
 
     void CalculateDistance()
     {
