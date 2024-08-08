@@ -10,4 +10,11 @@ public class BallData : ScriptableObject
     public float force = 40f;
     public float breakForce = 20f;
     public Vector2 StrikeZoneSize = new Vector2(0.1f, 0.1f);
+
+    //
+    public float sliderForce = 2f;
+    public float sliderDuration = 0.5f;
+
+    public float forkForce = 2f;
+    public float forkDuration = 0.5f;
 }

@@ -15,3 +15,5 @@ MonoBehaviour:
   force: 20
   breakForce: 0
   StrikeZoneSize: {x: 0.5, y: 0.5}
+  sliderForce: 2
+  sliderDuration: 1

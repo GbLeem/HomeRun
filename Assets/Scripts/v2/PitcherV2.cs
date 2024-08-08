@@ -20,8 +20,6 @@ public class PitcherV2 : MonoBehaviour
     //ball state
     private Ball ball;
 
-    private int TotalBallCount = 10;
-
     private void Awake()
     {
         pitcherAnimator = GetComponent<Animator>();
@@ -32,8 +30,7 @@ public class PitcherV2 : MonoBehaviour
     {
         //맨 처음에는 그냥 던짐
         if (UIManager.instance.ballCount == 0)
-        {
-            //pitcherAnimator.SetTrigger("Pitch");
+        {            
             pitcherAnimator.SetBool("canPitch", true);
         }
 
@@ -43,9 +40,7 @@ public class PitcherV2 : MonoBehaviour
 
     //현재 이 함수가 animation event를 통해서 실행되고 있음
     void Pitching()
-    {
-        pitcherAnimator.SetBool("canPitch", false);
-
+    {        
         //최대 공 갯수 보다 작으면 공 던지도록 함
         if(UIManager.instance.ballCount < 10)
         {
@@ -58,8 +53,35 @@ public class PitcherV2 : MonoBehaviour
             Vector3 dir = (randomPoint - startPosition.position).normalized;
 
             rigidbody.AddForce(dir * ballData[0].force, ForceMode.Impulse);
+
+            if (UIManager.instance.ballCount > 8)
+                StartCoroutine(Slider(rigidbody));
         }
     }
+
+    IEnumerator Slider(Rigidbody rb)
+    {
+        float elapsedTime = 0f;
+        while(elapsedTime < ballData[0].sliderDuration)
+        {
+            rb.AddForce(-transform.right * ballData[0].sliderForce * Time.deltaTime, ForceMode.VelocityChange);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+
+    IEnumerator Fork(Rigidbody rb)
+    {
+        float elapsedTime = 0f;
+        while (elapsedTime < ballData[0].forkDuration)
+        {
+            rb.AddForce(-transform.right * ballData[0].forkForce * Time.deltaTime, ForceMode.VelocityChange);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+    }
+
 
     private void Update()
     {        
@@ -77,7 +99,9 @@ public class PitcherV2 : MonoBehaviour
                 pitcherAnimator.SetBool("canPitch", true);
             }
             else
+            {
                 pitcherAnimator.SetBool("canPitch", false);
+            }
         }
         
         if(UIManager.instance.ballCount == 10)
@@ -86,12 +110,7 @@ public class PitcherV2 : MonoBehaviour
             //TODO 자연스럽게 만들기
             pitcherAnimator.enabled = false;
         }
-    }
-
-    private void FixedUpdate()
-    {
-
-    }
+    }  
 
     Vector3 GetRandomPointInStrikeZone()
     {
