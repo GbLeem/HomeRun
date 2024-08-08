@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b53ed550f77b30b41870cca8dc0acb27, type: 3}
   m_Name: Ball Data
   m_EditorClassIdentifier: 
-  force: 20
+  force: 10
   breakForce: 0
   StrikeZoneSize: {x: 0.5, y: 0.5}
   sliderForce: 2
   sliderDuration: 1
+  forkForce: 2
+  forkDuration: 0.5

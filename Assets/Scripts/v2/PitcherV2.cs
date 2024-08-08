@@ -18,12 +18,12 @@ public class PitcherV2 : MonoBehaviour
     private Animator pitcherAnimator;
 
     //ball state
-    private Ball ball;
+    private Ball ball;    
 
     private void Awake()
     {
         pitcherAnimator = GetComponent<Animator>();
-        ball = FindObjectOfType<Ball>();
+        ball = FindObjectOfType<Ball>();        
     }
 
     private void Start()
@@ -53,6 +53,10 @@ public class PitcherV2 : MonoBehaviour
             Vector3 dir = (randomPoint - startPosition.position).normalized;
 
             rigidbody.AddForce(dir * ballData[0].force, ForceMode.Impulse);
+
+            //공 텍스쳐 돌아가게 보일려고
+            //TODO 직구랑 슬라이더랑 회전 방향 다르게
+            //rigidbody.AddTorque(Vector3.right * 10f, ForceMode.VelocityChange);            
 
             if (UIManager.instance.ballCount > 8)
                 StartCoroutine(Slider(rigidbody));

@@ -4434,7 +4434,7 @@ GameObject:
   - component: {fileID: 1841432338}
   m_Layer: 0
   m_Name: HomePlate
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5164,7 +5164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startPosition: {fileID: 957354759}
   endPosition: {fileID: 860494843}
-  ballPrefab: {fileID: -5603934990176196249, guid: 138fc1c35ea3a644c8fce05122a44d7b, type: 3}
+  ballPrefab: {fileID: 7910943829033493918, guid: e3d1df3f966faf1479c2ed5979eedc0b, type: 3}
   ballData:
   - {fileID: 11400000, guid: 739b68fc4b8136e4d8779f5ab52da419, type: 2}
   strikeZone: {fileID: 788247678}

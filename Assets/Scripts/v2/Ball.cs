@@ -76,6 +76,9 @@ public class Ball : MonoBehaviour
 
     private void Update()
     {
+        //공 회전 보여주기
+        transform.Rotate(Vector3.forward * 5000f * Time.deltaTime);
+
         //공 다쓰고, done 일 때
         if (UIManager.instance.ballCount == 10)
         {
@@ -191,30 +194,6 @@ public class Ball : MonoBehaviour
             rigidBody.useGravity = true;
         }               
     }   
-
-    //이제는 안쓰는 함수
-    //private eBallTiming CalculateTiming(Vector3 originDir, Vector3 upDir, Vector3 hitDir)
-    //{
-    //    eBallTiming timing;
-    //    float upAngle = Vector3.Dot(upDir, hitDir);
-
-    //    //땅으로 가는 타구
-    //    if(upAngle < 0f)
-    //    {
-    //        timing = eBallTiming.fast;
-    //        return timing;
-    //    }
-        
-    //    //아닌 경우
-    //    float angle = Vector3.Angle(originDir, hitDir);
-        
-    //    if (angle > 15f && angle < 40f)
-    //        timing = eBallTiming.good;
-    //    else
-    //        timing = eBallTiming.late;
-        
-    //    return timing;
-    //}
 
     void CalculateDistance()
     {
