@@ -9,6 +9,8 @@ TagManager:
   - HomeRun
   - StrikeZone
   - Foul
+  - Ball
+  - Strike
   layers:
   - Default
   - TransparentFX
@@ -17,7 +19,7 @@ TagManager:
   - Water
   - UI
   - StrikeCheck
-  - 
+  - background
   - 
   - 
   - 

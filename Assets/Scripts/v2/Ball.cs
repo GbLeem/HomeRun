@@ -121,8 +121,9 @@ public class Ball : MonoBehaviour
             ballState = eBallState.done;
         }
 
-        if (other.gameObject.CompareTag("HomeRun"))
-        {
+        //공이 땅에 튀기고 다시 홈런 존 넘어가는거 방지하기
+        if (other.gameObject.CompareTag("HomeRun") && ballState != eBallState.done)
+        {            
             ballState = eBallState.homerun;
             UIManager.instance.ShowHomeRunText();
 
