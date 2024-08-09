@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b53ed550f77b30b41870cca8dc0acb27, type: 3}
-  m_Name: Ball Data
+  m_Script: {fileID: 11500000, guid: 1d26f868520113f4cab7e0786e0550af, type: 3}
+  m_Name: Slider
   m_EditorClassIdentifier: 
-  force: 40
-  StrikeZoneSize: {x: 0.1, y: 0.1}
-  sliderForce: 2
-  sliderDuration: 0.5
-  forkForce: 2
-  forkDuration: 0.5
+  force: 20
+  StrikeZoneSize: {x: -0.5, y: 0.1}
+  breakingballForce: 2
+  breakingballDuration: 0.5
+  delayTime: 0
+  forceDir: {x: -1, y: 0, z: 0}

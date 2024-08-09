@@ -8,7 +8,11 @@ public class PitcherV2 : MonoBehaviour
     public Transform endPosition;
 
     public Ball ballPrefab;
-    public BallData[] ballData;
+    //public BallData[] ballData;
+
+    //새로 만든거
+    public BallDataV2[] ballDatas;
+    private int totalBallDataSize;
 
     //랜덤 위치
     public Transform strikeZone;
@@ -35,57 +39,10 @@ public class PitcherV2 : MonoBehaviour
         }
 
         //TODO 인덱스는 나중에 랜덤으로 바꿔야함 혹은 난이도마다 다르게 적용
-        strikeZoneSize = ballData[0].StrikeZoneSize;
+        //strikeZoneSize = ballData[0].StrikeZoneSize;
+        totalBallDataSize = ballDatas.Length;
+        //strikeZoneSize = ballData[Random.Range(0, totalBallDataSize)].StrikeZoneSize;
     }
-
-    //현재 이 함수가 animation event를 통해서 실행되고 있음
-    void Pitching()
-    {        
-        //최대 공 갯수 보다 작으면 공 던지도록 함
-        if(UIManager.instance.ballCount < 10)
-        {
-            Vector3 randomPoint = GetRandomPointInStrikeZone();
-
-            Ball ball = Instantiate(ballPrefab, startPosition.position, startPosition.rotation);
-            Rigidbody rigidbody = ball.GetComponent<Rigidbody>();
-            ball.ballState = eBallState.none;
-
-            Vector3 dir = (randomPoint - startPosition.position).normalized;
-
-            rigidbody.AddForce(dir * ballData[0].force, ForceMode.Impulse);
-
-            //공 텍스쳐 돌아가게 보일려고
-            //TODO 직구랑 슬라이더랑 회전 방향 다르게
-            //rigidbody.AddTorque(Vector3.right * 10f, ForceMode.VelocityChange);            
-
-            if (UIManager.instance.ballCount > 8)
-                StartCoroutine(Slider(rigidbody));
-        }
-    }
-
-    IEnumerator Slider(Rigidbody rb)
-    {
-        float elapsedTime = 0f;
-        while(elapsedTime < ballData[0].sliderDuration)
-        {
-            rb.AddForce(-transform.right * ballData[0].sliderForce * Time.deltaTime, ForceMode.VelocityChange);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-    }
-
-
-    IEnumerator Fork(Rigidbody rb)
-    {
-        float elapsedTime = 0f;
-        while (elapsedTime < ballData[0].forkDuration)
-        {
-            rb.AddForce(-transform.right * ballData[0].forkForce * Time.deltaTime, ForceMode.VelocityChange);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-    }
-
 
     private void Update()
     {        
@@ -115,6 +72,91 @@ public class PitcherV2 : MonoBehaviour
             pitcherAnimator.enabled = false;
         }
     }  
+
+    //현재 이 함수가 animation event를 통해서 실행되고 있음
+    void Pitching()
+    {
+        int index = SelectBallIndex();
+
+        //최대 공 갯수 보다 작으면 공 던지도록 함
+        if(UIManager.instance.ballCount < 10)
+        {
+            Vector3 randomPoint = GetRandomPointInStrikeZone();
+
+            Ball ball = Instantiate(ballPrefab, startPosition.position, startPosition.rotation);
+            Rigidbody rigidbody = ball.GetComponent<Rigidbody>();
+            ball.ballState = eBallState.none;
+
+            Vector3 dir = (randomPoint - startPosition.position).normalized;
+
+            //rigidbody.AddForce(dir * ballData[0].force, ForceMode.Impulse);
+            rigidbody.AddForce(dir * ballDatas[index].force, ForceMode.Impulse);
+
+            //공 텍스쳐 돌아가게 보일려고
+            //TODO 직구랑 슬라이더랑 회전 방향 다르게
+            //rigidbody.AddTorque(Vector3.right * 10f, ForceMode.VelocityChange);    
+
+            //if (UIManager.instance.ballCount < 5)
+            //    StartCoroutine(Slider(rigidbody));
+
+            //if (UIManager.instance.ballCount >= 5)
+            //    StartCoroutine(Fork(rigidbody));
+            StartCoroutine(BreakingBall(rigidbody, index));
+        }
+    }
+
+    //IEnumerator Slider(Rigidbody rb)
+    //{
+    //    float elapsedTime = 0f;
+    //    while(elapsedTime < ballData[0].sliderDuration)
+    //    {
+    //        rb.AddForce(-transform.right * ballData[0].sliderForce * Time.deltaTime, ForceMode.VelocityChange);
+    //        elapsedTime += Time.deltaTime;
+    //        yield return null;
+    //    }
+    //}
+
+    //IEnumerator Fork(Rigidbody rb)
+    //{
+    //    yield return new WaitForSeconds(0.5f);
+
+    //    float elapsedTime = 0f;
+    //    while (elapsedTime < ballData[0].forkDuration)
+    //    {
+    //        rb.AddForce(-transform.up * ballData[0].forkForce * Time.deltaTime, ForceMode.VelocityChange);
+    //        elapsedTime += Time.deltaTime;
+    //        yield return null;
+    //    }
+    //}
+
+    IEnumerator BreakingBall(Rigidbody rb, int index)
+    {
+        //1 4seam
+        //2 slider
+        //3 forkball
+
+        if (ballDatas[index].breakingballDuration == 0)
+            yield return null;
+
+        yield return new WaitForSeconds(ballDatas[index].delayTime);
+        
+        float elapsedTime = 0f;
+        while (elapsedTime < ballDatas[index].breakingballDuration)
+        {
+            rb.AddForce(ballDatas[index].forceDir * ballDatas[index].breakingballForce * Time.deltaTime, ForceMode.VelocityChange);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    int SelectBallIndex()
+    {
+        totalBallDataSize = ballDatas.Length;
+        int idx = Random.Range(0, totalBallDataSize);
+        Debug.Log(idx);
+
+        return idx;
+    }
 
     Vector3 GetRandomPointInStrikeZone()
     {

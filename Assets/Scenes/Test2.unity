@@ -1116,7 +1116,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4b92b6c0a1524914e98f426e02926aed, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4b92b6c0a1524914e98f426e02926aed, type: 3}
       propertyPath: m_LocalScale.z
@@ -5078,7 +5078,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 602c66a61aff71f44941d4d1faf34dc0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.263
+      value: 0.19
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 602c66a61aff71f44941d4d1faf34dc0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5165,8 +5165,10 @@ MonoBehaviour:
   startPosition: {fileID: 957354759}
   endPosition: {fileID: 860494843}
   ballPrefab: {fileID: 7910943829033493918, guid: e3d1df3f966faf1479c2ed5979eedc0b, type: 3}
-  ballData:
-  - {fileID: 11400000, guid: 739b68fc4b8136e4d8779f5ab52da419, type: 2}
+  ballDatas:
+  - {fileID: 11400000, guid: 3bec33189a19a0a41a04028527a0cda3, type: 2}
+  - {fileID: 11400000, guid: 22fce4c91ccdd5e438c8b9b168ee64fa, type: 2}
+  - {fileID: 11400000, guid: 1d552dd1f1c12b54189ca8f78206d203, type: 2}
   strikeZone: {fileID: 788247678}
 --- !u!1 &2076529084
 GameObject:

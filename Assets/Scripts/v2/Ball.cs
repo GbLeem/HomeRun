@@ -71,13 +71,14 @@ public class Ball : MonoBehaviour
         lineRenderer.endWidth = 0.1f;
         
         //total 공 갯수 체크
-        UIManager.instance.ballCount += 1;        
+        UIManager.instance.ballCount += 1;
     }    
 
     private void Update()
     {
         //공 회전 보여주기
-        transform.Rotate(Vector3.forward * 5000f * Time.deltaTime);
+        //TODO 공 회전 속도 수정
+        transform.Rotate(Vector3.forward * 3000f * Time.deltaTime);
 
         //공 다쓰고, done 일 때
         if (UIManager.instance.ballCount == 10)
