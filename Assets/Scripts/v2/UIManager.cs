@@ -38,6 +38,9 @@ public class UIManager : MonoBehaviour
     //homerun text delay time
     private float displayTime = 1.5f;
 
+    //Score Check
+    private float score = 0f;
+
     //GameOver
     public GameObject gameOverUI;
     
@@ -46,9 +49,10 @@ public class UIManager : MonoBehaviour
         distanceText.text = string.Format("{0:F2}", distance) + " m";
     }
 
-    public void UpdateScoreText(int newScore)
+    public void UpdateScoreText(float newScore)
     {
-        scoreText.text = "Score : " + newScore;
+        score += newScore;
+        scoreText.text = "Score : " + string.Format("{0:F2}", score);
     }
     public void ShowHomeRunText()
     {

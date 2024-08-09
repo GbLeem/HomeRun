@@ -43,6 +43,7 @@ public class Ball : MonoBehaviour
 
     //ball distance check
     private Transform ballStartPosition;
+    private float distance;
 
     //total hitting chance    
     private bool bIsShowUI = false;
@@ -101,13 +102,12 @@ public class Ball : MonoBehaviour
                 bIsShowUI = false;
             }
             DrawTrajectory(hittingMaterial);
-            //TODO : distance 측정이 끝나는 시간을 정해야함
             CalculateDistance();
         }
 
         else if(ballState == eBallState.done)
         {
-            ballState = eBallState.finish;
+            ballState = eBallState.finish;            
             Destroy(gameObject, 2f);            
         }     
     }
@@ -134,7 +134,7 @@ public class Ball : MonoBehaviour
 
             //홈런친 순간 적용
             UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, eBallState.homerun);
-
+            CalculateScore(ballTiming, distance, eBallState.homerun);
             ballState = eBallState.done;
         }
 
@@ -198,9 +198,22 @@ public class Ball : MonoBehaviour
         }               
     }   
 
+    void CalculateScore(eBallTiming timing, float distance, eBallState state)
+    {
+        float score = distance;
+        if (timing == eBallTiming.good)
+            score *= 2f;
+        if(state == eBallState.flying)
+            score *= 1.2f;
+        if (state == eBallState.homerun)
+            score *= 2f;
+
+        UIManager.instance.UpdateScoreText(score);
+    }
+
     void CalculateDistance()
     {
-        float distance;
+        //float distance;
 
         //distance 계산
         distance = Vector3.Distance(transform.position, ballStartPosition.position);
