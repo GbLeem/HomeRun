@@ -95,10 +95,11 @@ public class Ball : MonoBehaviour
         //hitting 이후 공의 상태가 flying 
         if (ballState == eBallState.flying)
         {
-            StartCoroutine(EraseLine());
+            //StartCoroutine(EraseLine());
             if(bIsShowUI)
             {
-                UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, ballState);
+                UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, ballState);                
+
                 bIsShowUI = false;
             }
             DrawTrajectory(hittingMaterial);
@@ -154,6 +155,9 @@ public class Ball : MonoBehaviour
         //공이 땅에 닿았을때 한 turn 이 끝남
         if(collision.gameObject.CompareTag("Ground"))
         {
+            if (ballState != eBallState.foul || ballState != eBallState.strike)
+                CalculateScore(ballTiming, distance, eBallState.flying);
+
             ballState = eBallState.done;
         }
 
@@ -201,6 +205,7 @@ public class Ball : MonoBehaviour
     void CalculateScore(eBallTiming timing, float distance, eBallState state)
     {
         float score = distance;
+
         if (timing == eBallTiming.good)
             score *= 2f;
         if(state == eBallState.flying)
@@ -208,7 +213,7 @@ public class Ball : MonoBehaviour
         if (state == eBallState.homerun)
             score *= 2f;
 
-        UIManager.instance.UpdateScoreText(score);
+        UIManager.instance.UpdateScoreText(score);        
     }
 
     void CalculateDistance()
@@ -219,7 +224,9 @@ public class Ball : MonoBehaviour
         distance = Vector3.Distance(transform.position, ballStartPosition.position);
 
         //UI 연동
-        UIManager.instance.UpdateDistanceText(distance);        
+        UIManager.instance.UpdateDistanceText(distance);
+        //if (ballState != eBallState.foul || ballState != eBallState.strike)
+        //    CalculateScore(ballTiming, distance, ballState);
     }
 
     //TODO line renderer 두개만들어서 처리하기?

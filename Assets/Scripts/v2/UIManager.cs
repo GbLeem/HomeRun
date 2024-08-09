@@ -138,7 +138,7 @@ public class UIManager : MonoBehaviour
         //쳤으면, 초록
         else if (ballState == eBallState.flying)
         {
-            ballImage[ballIdx - 1].color = new Color(0, 1, 0, 0.5f);
+            ballImage[ballIdx - 1].color = new Color(0, 1, 0, 0.5f);            
         }
 
         //홈런 파랑

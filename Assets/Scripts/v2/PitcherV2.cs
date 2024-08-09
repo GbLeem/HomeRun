@@ -74,6 +74,7 @@ public class PitcherV2 : MonoBehaviour
     void Pitching()
     {
         int index = SelectBallIndex();
+        strikeZoneSize = ballDatas[index].StrikeZoneSize;
 
         //최대 공 갯수 보다 작으면 공 던지도록 함
         if(UIManager.instance.ballCount < 10)
