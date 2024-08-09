@@ -8,7 +8,6 @@ public class PitcherV2 : MonoBehaviour
     public Transform endPosition;
 
     public Ball ballPrefab;
-    //public BallData[] ballData;
 
     //새로 만든거
     public BallDataV2[] ballDatas;
@@ -38,10 +37,8 @@ public class PitcherV2 : MonoBehaviour
             pitcherAnimator.SetBool("canPitch", true);
         }
 
-        //TODO 인덱스는 나중에 랜덤으로 바꿔야함 혹은 난이도마다 다르게 적용
-        //strikeZoneSize = ballData[0].StrikeZoneSize;
+        //random ball type
         totalBallDataSize = ballDatas.Length;
-        //strikeZoneSize = ballData[Random.Range(0, totalBallDataSize)].StrikeZoneSize;
     }
 
     private void Update()
@@ -89,45 +86,15 @@ public class PitcherV2 : MonoBehaviour
 
             Vector3 dir = (randomPoint - startPosition.position).normalized;
 
-            //rigidbody.AddForce(dir * ballData[0].force, ForceMode.Impulse);
             rigidbody.AddForce(dir * ballDatas[index].force, ForceMode.Impulse);
 
             //공 텍스쳐 돌아가게 보일려고
-            //TODO 직구랑 슬라이더랑 회전 방향 다르게
-            //rigidbody.AddTorque(Vector3.right * 10f, ForceMode.VelocityChange);    
-
-            //if (UIManager.instance.ballCount < 5)
-            //    StartCoroutine(Slider(rigidbody));
-
-            //if (UIManager.instance.ballCount >= 5)
-            //    StartCoroutine(Fork(rigidbody));
+            //TODO 직구랑 슬라이더랑 회전 방향 다르게           
             StartCoroutine(BreakingBall(rigidbody, index));
         }
+
+        UIManager.instance.ShowBallText(ballDatas[index].ballname);
     }
-
-    //IEnumerator Slider(Rigidbody rb)
-    //{
-    //    float elapsedTime = 0f;
-    //    while(elapsedTime < ballData[0].sliderDuration)
-    //    {
-    //        rb.AddForce(-transform.right * ballData[0].sliderForce * Time.deltaTime, ForceMode.VelocityChange);
-    //        elapsedTime += Time.deltaTime;
-    //        yield return null;
-    //    }
-    //}
-
-    //IEnumerator Fork(Rigidbody rb)
-    //{
-    //    yield return new WaitForSeconds(0.5f);
-
-    //    float elapsedTime = 0f;
-    //    while (elapsedTime < ballData[0].forkDuration)
-    //    {
-    //        rb.AddForce(-transform.up * ballData[0].forkForce * Time.deltaTime, ForceMode.VelocityChange);
-    //        elapsedTime += Time.deltaTime;
-    //        yield return null;
-    //    }
-    //}
 
     IEnumerator BreakingBall(Rigidbody rb, int index)
     {
@@ -152,9 +119,7 @@ public class PitcherV2 : MonoBehaviour
     int SelectBallIndex()
     {
         totalBallDataSize = ballDatas.Length;
-        int idx = Random.Range(0, totalBallDataSize);
-        Debug.Log(idx);
-
+        int idx = Random.Range(0, totalBallDataSize);        
         return idx;
     }
 

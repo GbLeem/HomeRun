@@ -35,6 +35,8 @@ public class Ball : MonoBehaviour
     //for draw trajectory
     private LineRenderer lineRenderer;
     private List<Vector3> positions = new List<Vector3>();
+    public Material pitchingMaterial;
+    public Material hittingMaterial;
 
     //ball state check
     public Vector3 homePlateDir = -Vector3.forward;
@@ -57,10 +59,7 @@ public class Ball : MonoBehaviour
         //ballState = eBallState.done;
     }
     private void Start()
-    {
-        //공 멀리 뜰때 버그 나는 것 이걸로 수정함 life time 떄문인듯
-        //Destroy(gameObject, lifeTime);
-
+    {        
         //공이 처음에는 none 상태로 시작함
         ballState = eBallState.none;
 
@@ -87,16 +86,21 @@ public class Ball : MonoBehaviour
                 UIManager.instance.GameOver();
         }
 
+        if(ballState == eBallState.none)
+        {
+            DrawTrajectory(pitchingMaterial);
+        }
+
         //hitting 이후 공의 상태가 flying 
         if (ballState == eBallState.flying)
         {
+            StartCoroutine(EraseLine());
             if(bIsShowUI)
             {
                 UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, ballState);
                 bIsShowUI = false;
             }
-
-            DrawTrajectory();
+            DrawTrajectory(hittingMaterial);
             //TODO : distance 측정이 끝나는 시간을 정해야함
             CalculateDistance();
         }
@@ -159,10 +163,9 @@ public class Ball : MonoBehaviour
             //충돌 방향계산
             Vector3 hitDirection = (transform.position - collision.transform.position).normalized;
 
-            //ball timing 계산해서 force 적용
 
+            //ball timing 계산해서 force 적용
             //타이밍 계산 함수 수정
-            //ballTiming = CalculateTiming(homePlateDir, Vector3.up, hitDirection);
             ballTiming = UIManager.instance.CalculateTimingByUI();
 
             UIManager.instance.ShowTimingText(ballTiming);
@@ -170,12 +173,10 @@ public class Ball : MonoBehaviour
             //충돌 방향이 0보다 작으면 파울
             if (Vector3.Dot(hitDirection, homePlateDir) < 0.0001f)            
             {
-                //Debug.Log("Foul");
                 ballState = eBallState.foul;
             }
             else
             {
-                //Debug.Log("Hit");
                 ballState = eBallState.hitting;
             }
 
@@ -208,9 +209,20 @@ public class Ball : MonoBehaviour
         UIManager.instance.UpdateDistanceText(distance);        
     }
 
-    void DrawTrajectory()
+    //TODO line renderer 두개만들어서 처리하기?
+    IEnumerator EraseLine()
+    {
+        lineRenderer.enabled = false;
+        lineRenderer.positionCount = 0;
+        //positions.Clear();
+        yield return null;
+    }
+
+    void DrawTrajectory(Material mat)
     {        
         lineRenderer.enabled = true;
+
+        lineRenderer.material = mat;
         positions.Add(transform.position);
         lineRenderer.positionCount = positions.Count;
         lineRenderer.SetPositions(positions.ToArray());

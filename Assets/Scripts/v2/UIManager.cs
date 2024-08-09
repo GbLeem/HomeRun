@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour
     public Text scoreText;
     public Text homeRunText;
     public Text timingText;
+    public Text ballText;
 
     //ball count ui
     public Image[] ballImage;
@@ -42,7 +43,7 @@ public class UIManager : MonoBehaviour
     
     public void UpdateDistanceText(float distance)
     {
-        distanceText.text = distance + " m";
+        distanceText.text = string.Format("{0:F2}", distance) + " m";
     }
 
     public void UpdateScoreText(int newScore)
@@ -63,7 +64,14 @@ public class UIManager : MonoBehaviour
         StartCoroutine(HideTimingTextAfterDelay());
     }
 
-    //TODO 아래의 함수 두개 파라메터 넣어서 같이 쓰게 만들기?
+    public void ShowBallText(string name)
+    {
+        ballText.gameObject.SetActive(true);
+        ballText.text = name;
+        StartCoroutine(HideBallTextDelay());
+    }
+
+    //TODO Delay 함수 통합하기
     private IEnumerator HideTextAfterDelay()
     {
         yield return new WaitForSeconds(displayTime);
@@ -76,12 +84,21 @@ public class UIManager : MonoBehaviour
         timingText.gameObject.SetActive(false);
     }
 
+    private IEnumerator HideBallTextDelay()
+    {
+        yield return new WaitForSeconds(2f);
+        ballText.gameObject.SetActive(false);
+    }
+
+
     private IEnumerator delayTimeSomeSecondsAndGameOver(float seconds)
     {
         yield return new WaitForSeconds(seconds);
         Time.timeScale = 0;
         gameOverUI.SetActive(true);
     }
+
+
     public IEnumerator SwingUI()
     {
         //yield return null;

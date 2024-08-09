@@ -13,5 +13,7 @@ public class BallDataV2 : ScriptableObject
     //fork ball
     public float delayTime = 0f;
 
-    public Vector3 forceDir;       
+    public Vector3 forceDir;
+
+    public string ballname;
 }

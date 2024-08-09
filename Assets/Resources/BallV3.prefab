@@ -150,6 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d23dea817374d1489ae7522310e8c62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pitchingMaterial: {fileID: 2100000, guid: 6119a0a17b114a048900a7e6352e8480, type: 2}
+  hittingMaterial: {fileID: 2100000, guid: e7949b6fcfdbead49b7e16566ce4b97c, type: 2}
   homePlateDir: {x: -0, y: -0, z: -1}
 --- !u!120 &6626936012495363649
 LineRenderer:

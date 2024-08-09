@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d26f868520113f4cab7e0786e0550af, type: 3}
   m_Name: Fork
   m_EditorClassIdentifier: 
-  force: 20
+  force: 15
   StrikeZoneSize: {x: 0.1, y: 0.1}
-  breakingballForce: 5
+  breakingballForce: 8
   breakingballDuration: 0.5
   delayTime: 0.3
   forceDir: {x: 0, y: -1, z: 0}
+  ballname: Fork

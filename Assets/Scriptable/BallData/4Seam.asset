@@ -18,3 +18,4 @@ MonoBehaviour:
   breakingballDuration: 0
   delayTime: 0
   forceDir: {x: 0, y: 0, z: 0}
+  ballname: 4Seam
