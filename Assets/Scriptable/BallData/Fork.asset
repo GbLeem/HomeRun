@@ -19,3 +19,4 @@ MonoBehaviour:
   delayTime: 0.3
   forceDir: {x: 0, y: -1, z: 0}
   ballname: Fork
+  curveForce: {x: 0, y: 0, z: 0}

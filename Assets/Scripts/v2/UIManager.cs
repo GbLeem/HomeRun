@@ -109,22 +109,22 @@ public class UIManager : MonoBehaviour
         Vector2 currentPos = batUI.anchoredPosition;
 
         float elapsed = 0f;
-        while (elapsed < duration && currentPos.y < 100f)
+        while (elapsed < duration && currentPos.y < 150f)
         {
-            currentPos.y += 2.5f; //TODO 적절한 스피드의 배트 UI
+            currentPos.y += 3.0f; //TODO 적절한 스피드의 배트 UI
             elapsed += Time.deltaTime;
             batUI.anchoredPosition = currentPos;
             yield return null;
         }
 
         //이건 타격이 안되었을때 reset
-        batUI.anchoredPosition = new Vector2(0f, -100f);        
+        batUI.anchoredPosition = new Vector2(0f, -150f);        
     }    
 
     public IEnumerator ResetSwingUI()
     {
         yield return new WaitForSeconds(2f);
-        batUI.anchoredPosition = new Vector2(0, -100f);
+        batUI.anchoredPosition = new Vector2(0, -150f);
     }
 
     public void UpdateBallImage(int ballIdx, eBallState ballState)

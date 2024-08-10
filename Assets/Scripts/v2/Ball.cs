@@ -54,6 +54,10 @@ public class Ball : MonoBehaviour
     public AudioClip hittingGoodSound;
     public AudioClip hittingnormalSound;
 
+
+    //
+    private Vector3 hitDirection;
+
     private void Awake()
     { 
         rigidBody = GetComponent<Rigidbody>();
@@ -168,7 +172,7 @@ public class Ball : MonoBehaviour
         {            
             
             //충돌 방향계산
-            Vector3 hitDirection = (transform.position - collision.transform.position).normalized;
+            hitDirection = (transform.position - collision.transform.position).normalized;
 
 
             //ball timing 계산해서 force 적용
@@ -246,4 +250,8 @@ public class Ball : MonoBehaviour
         lineRenderer.SetPositions(positions.ToArray());
     }
     
+    public Vector3 GetHitDirection()
+    {
+        return hitDirection;
+    }
 }

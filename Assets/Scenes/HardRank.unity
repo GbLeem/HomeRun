@@ -6119,7 +6119,10 @@ MonoBehaviour:
   endPosition: {fileID: 860494843}
   ballPrefab: {fileID: 7910943829033493918, guid: 3cbe3b2a359ef684ca8a904329ce67c6, type: 3}
   ballDatas:
+  - {fileID: 11400000, guid: 310a1f34e9b344444bffa9b949671ae0, type: 2}
   - {fileID: 11400000, guid: 3bec33189a19a0a41a04028527a0cda3, type: 2}
+  - {fileID: 11400000, guid: 22fce4c91ccdd5e438c8b9b168ee64fa, type: 2}
+  - {fileID: 11400000, guid: 1d552dd1f1c12b54189ca8f78206d203, type: 2}
   strikeZone: {fileID: 788247678}
   pitchAudio: {fileID: 8300000, guid: 31074f623167cdf42a3d95a8c11bcbc5, type: 3}
   backgroundMusic: {fileID: 2058403839}

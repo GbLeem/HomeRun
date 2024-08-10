@@ -105,6 +105,10 @@ public class PitcherV2 : MonoBehaviour
 
             rigidbody.AddForce(dir * ballDatas[index].force, ForceMode.Impulse);
 
+            //커브
+            if (ballDatas[index].curveForce.y != 0)
+                rigidbody.AddForce(ballDatas[index].curveForce, ForceMode.Impulse);
+
             //공 텍스쳐 돌아가게 보일려고
             //TODO 직구랑 슬라이더랑 회전 방향 다르게           
             StartCoroutine(BreakingBall(rigidbody, index));

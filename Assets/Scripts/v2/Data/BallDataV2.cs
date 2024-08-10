@@ -16,4 +16,7 @@ public class BallDataV2 : ScriptableObject
     public Vector3 forceDir;
 
     public string ballname;
+
+    //curve ball
+    public Vector3 curveForce = new Vector3(0, 0, 0);
 }

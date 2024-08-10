@@ -15,7 +15,7 @@ public class Lobby : MonoBehaviour
         if (isEasy)
             SceneManager.LoadScene("EasyRank");
         else
-            SceneManager.LoadScene("Test2");
+            SceneManager.LoadScene("HardRank");
     }
 
     public void RestartGame()

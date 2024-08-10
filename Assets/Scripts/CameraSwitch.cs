@@ -15,8 +15,6 @@ public class CameraSwitch : MonoBehaviour
         sideCamera.gameObject.SetActive(false);
         topCamera.gameObject.SetActive(false);
     }
-
-
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Alpha1))

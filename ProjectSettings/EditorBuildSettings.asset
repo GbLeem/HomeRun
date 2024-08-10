@@ -9,9 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Lobby.unity
     guid: 1269ed00de2044b4bb99ca3c698dc092
   - enabled: 1
-    path: Assets/Scenes/Test2.unity
-    guid: ba1fd803da847db4f86b39a6e56d969b
-  - enabled: 1
     path: Assets/Scenes/EasyRank.unity
     guid: ac96a6a7a00516b478105735ad1f5dba
+  - enabled: 1
+    path: Assets/Scenes/HardRank.unity
+    guid: ed88bd9ef51b87d499c560b12eeee3aa
   m_configObjects: {}
