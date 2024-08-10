@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Slider
   m_EditorClassIdentifier: 
   force: 15
-  StrikeZoneSize: {x: -0.3, y: 0.1}
+  StrikeZoneSize: {x: 0.2, y: 0.1}
   breakingballForce: 2
-  breakingballDuration: 0.4
+  breakingballDuration: 0.2
   delayTime: 0
   forceDir: {x: -1, y: 0, z: 0}
   ballname: Slider

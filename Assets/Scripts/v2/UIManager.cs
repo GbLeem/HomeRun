@@ -111,7 +111,7 @@ public class UIManager : MonoBehaviour
         float elapsed = 0f;
         while (elapsed < duration && currentPos.y < 100f)
         {
-            currentPos.y += 1.0f; //TODO 이 값을 임의로 바꾸는 중, 나중에 변수로 바꿔주기
+            currentPos.y += 2.5f; //TODO 적절한 스피드의 배트 UI
             elapsed += Time.deltaTime;
             batUI.anchoredPosition = currentPos;
             yield return null;

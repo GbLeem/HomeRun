@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   force: 13
   StrikeZoneSize: {x: 0.1, y: 0}
-  breakingballForce: 6
+  breakingballForce: 4
   breakingballDuration: 0.5
   delayTime: 0.3
   forceDir: {x: 0, y: -1, z: 0}

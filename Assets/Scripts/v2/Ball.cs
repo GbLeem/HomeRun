@@ -34,9 +34,7 @@ public class Ball : MonoBehaviour
 
     //for draw trajectory
     private LineRenderer lineRenderer;
-    private List<Vector3> positions = new List<Vector3>();
-    public Material pitchingMaterial;
-    public Material hittingMaterial;
+    private List<Vector3> positions = new List<Vector3>();    
 
     //ball state check
     public Vector3 homePlateDir = -Vector3.forward;
@@ -50,18 +48,24 @@ public class Ball : MonoBehaviour
 
     //ball trail
     private TrailRenderer trailRenderer;
-    
+
+    //sound
+    private AudioSource ballAudio;
+    public AudioClip hittingGoodSound;
+    public AudioClip hittingnormalSound;
+
     private void Awake()
     { 
         rigidBody = GetComponent<Rigidbody>();
         lineRenderer = GetComponent<LineRenderer>();
         trailRenderer = GetComponent<TrailRenderer>();
+        ballAudio = GetComponent<AudioSource>();
 
         ballState = eBallState.none;
     }
     private void OnDestroy()
     {
-        //ballState = eBallState.done;
+
     }
     private void Start()
     {        
@@ -101,7 +105,7 @@ public class Ball : MonoBehaviour
 
                 bIsShowUI = false;
             }
-            DrawTrajectory(hittingMaterial);
+            DrawTrajectory();
             CalculateDistance();
         }
 
@@ -162,6 +166,7 @@ public class Ball : MonoBehaviour
         //공이 배트랑 충돌 발생시
         if(collision.gameObject.CompareTag("Bat"))
         {            
+            
             //충돌 방향계산
             Vector3 hitDirection = (transform.position - collision.transform.position).normalized;
 
@@ -189,11 +194,21 @@ public class Ball : MonoBehaviour
             float hitForce = 50f;
 
             if (ballTiming == eBallTiming.good)
+            {
+                //타격 사운드 출력
+                ballAudio.PlayOneShot(hittingGoodSound);
                 hitForce = 50f;
+            }
             else if (ballTiming == eBallTiming.late)
+            {
+                ballAudio.PlayOneShot(hittingnormalSound, 0.7f);
                 hitForce = 15f;
+            }
             else if(ballTiming == eBallTiming.fast)
+            {                
+                ballAudio.PlayOneShot(hittingnormalSound);
                 hitForce = 25f;
+            }
 
             rigidBody.AddForce(hitDirection * hitForce, ForceMode.Impulse);
             rigidBody.useGravity = true;
@@ -216,31 +231,16 @@ public class Ball : MonoBehaviour
 
     void CalculateDistance()
     {
-        //float distance;
-
         //distance 계산
         distance = Vector3.Distance(transform.position, ballStartPosition.position);
 
         //UI 연동
-        UIManager.instance.UpdateDistanceText(distance);
-        //if (ballState != eBallState.foul || ballState != eBallState.strike)
-        //    CalculateScore(ballTiming, distance, ballState);
+        UIManager.instance.UpdateDistanceText(distance);       
     }
 
-    //TODO line renderer 두개만들어서 처리하기?
-    IEnumerator EraseLine()
-    {
-        lineRenderer.enabled = false;
-        lineRenderer.positionCount = 0;
-        //positions.Clear();
-        yield return null;
-    }
-
-    void DrawTrajectory(Material mat)
+    void DrawTrajectory()
     {        
         lineRenderer.enabled = true;
-
-        lineRenderer.material = mat;
         positions.Add(transform.position);
         lineRenderer.positionCount = positions.Count;
         lineRenderer.SetPositions(positions.ToArray());

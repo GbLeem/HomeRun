@@ -21,11 +21,17 @@ public class PitcherV2 : MonoBehaviour
     private Animator pitcherAnimator;
 
     //ball state
-    private Ball ball;        
+    private Ball ball;
+
+    //sound
+    private AudioSource pitcherAudio;
+    public AudioClip pitchAudio;
+    public AudioSource backgroundMusic;
 
     private void Awake()
     {
         pitcherAnimator = GetComponent<Animator>();
+        pitcherAudio = GetComponent<AudioSource>();
         ball = FindObjectOfType<Ball>();        
     }
 
@@ -38,14 +44,21 @@ public class PitcherV2 : MonoBehaviour
         }
 
         //random ball type
-        totalBallDataSize = ballDatas.Length;        
+        totalBallDataSize = ballDatas.Length;
+
+        //background music
+        if (backgroundMusic != null && !backgroundMusic.isPlaying)
+        {
+            backgroundMusic.loop = true;  // 무한 루프 설정
+            backgroundMusic.Play();       // 음악 재생
+        }        
     }
 
     private void Update()
     {        
         if (ball == null)
         {
-            ball = FindObjectOfType<Ball>();         
+            ball = FindObjectOfType<Ball>();
         }
 
         //여기서 ball state 가져와서 set bool로 적용
@@ -73,6 +86,9 @@ public class PitcherV2 : MonoBehaviour
     //현재 이 함수가 animation event를 통해서 실행되고 있음
     void Pitching()
     {
+        //sound
+        pitcherAudio.PlayOneShot(pitchAudio, 0.5f);
+
         int index = SelectBallIndex();
         strikeZoneSize = ballDatas[index].StrikeZoneSize;
 
@@ -126,6 +142,7 @@ public class PitcherV2 : MonoBehaviour
 
     Vector3 GetRandomPointInStrikeZone()
     {
+        //0.3 -> -0.15 ~ 0.15
         float randomX = Random.Range(-strikeZoneSize.x / 2, strikeZoneSize.x / 2);
         float randomY = Random.Range(-strikeZoneSize.y / 2, strikeZoneSize.y / 2);
 

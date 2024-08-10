@@ -21,7 +21,6 @@ public class Bat : MonoBehaviour
     public float speed = 5f;
     public IEnumerator coroutine;
 
-
     //for swing
     public Transform batHand;
     private bool isSwinging = false;
@@ -46,7 +45,7 @@ public class Bat : MonoBehaviour
         batCollider.enabled = false;
         batTransform = GetComponentInChildren<Transform>();
 
-        Vector2 pivot = new Vector2(0.5f, 1.5f);
+        Vector2 pivot = new Vector2(0.5f, 1.3f);
         target.pivot = pivot;
 
         float batScale = batData.batScale;
@@ -59,7 +58,6 @@ public class Bat : MonoBehaviour
         {
             meshRenderer.enabled = false;
         }
-
     }        
 
     private void Update()
@@ -88,8 +86,7 @@ public class Bat : MonoBehaviour
                 StopCoroutine(coroutine);
                 StartCoroutine(UIManager.instance.ResetSwingUI());
 
-                //TODO 타이밍 계산 함수 바꾸기
-                //UIManager.instance.CalculateTimingByUI();
+                //TODO 타이밍 계산 함수 바꾸기                
                 ball.ballState = eBallState.flying;
             }
         }
@@ -121,8 +118,7 @@ public class Bat : MonoBehaviour
             batDirection.x -= 1;
         }
 
-        // 타겟 이동
-        // 타겟은 안보이게 하기
+        // 타겟 이동        
         batHand.transform.position += batDirection * Time.deltaTime;
         
         //PCI 이동

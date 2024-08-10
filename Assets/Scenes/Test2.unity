@@ -999,6 +999,7 @@ GameObject:
   m_Component:
   - component: {fileID: 347757993}
   - component: {fileID: 347757992}
+  - component: {fileID: 347757994}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1072,6 +1073,14 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 11.004, y: 180, z: 0}
+--- !u!81 &347757994
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 347757990}
+  m_Enabled: 1
 --- !u!1 &440689596
 GameObject:
   m_ObjectHideFlags: 0
@@ -1512,7 +1521,7 @@ MonoBehaviour:
   hitTimingUI: {fileID: 2076529085}
   speed: 50
   batHand: {fileID: 1393660136}
-  swingDuration: 0.4
+  swingDuration: 0.3
   swingAngle: 180
   anim: {fileID: 2057504726}
 --- !u!1 &730373973
@@ -4349,7 +4358,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 602c66a61aff71f44941d4d1faf34dc0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.12
+      value: -1.9
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 602c66a61aff71f44941d4d1faf34dc0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4357,7 +4366,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 602c66a61aff71f44941d4d1faf34dc0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 31.69
+      value: 31.58
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 602c66a61aff71f44941d4d1faf34dc0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5842,6 +5851,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 22fce4c91ccdd5e438c8b9b168ee64fa, type: 2}
   - {fileID: 11400000, guid: 1d552dd1f1c12b54189ca8f78206d203, type: 2}
   strikeZone: {fileID: 788247678}
+  pitchAudio: {fileID: 8300000, guid: 31074f623167cdf42a3d95a8c11bcbc5, type: 3}
+  backgroundMusic: {fileID: 0}
 --- !u!1 &2066046878
 GameObject:
   m_ObjectHideFlags: 0
