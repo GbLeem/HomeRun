@@ -14,9 +14,12 @@ public class PitcherV2 : MonoBehaviour
     private int totalBallDataSize;
 
     //랜덤 위치
-    public Transform strikeZone;
+    public Transform strikeZoneCenter;
     private Vector2 strikeZoneSize;
-    
+
+    private Vector2 maxStrikeZone;
+    private Vector2 minStrikeZone;
+
     //애니메이션
     private Animator pitcherAnimator;
 
@@ -106,7 +109,10 @@ public class PitcherV2 : MonoBehaviour
         pitcherAudio.PlayOneShot(pitchAudio, 0.5f);
 
         int index = SelectBallIndex();
-        strikeZoneSize = ballDatas[index].StrikeZoneSize;
+
+        //strikeZoneSize = ballDatas[index].StrikeZoneSize;
+        maxStrikeZone = ballDatas[index].maxStrikeZone;
+        minStrikeZone = ballDatas[index].minStrikeZone;
 
         //최대 공 갯수 보다 작으면 공 던지도록 함
         if(UIManager.instance.ballCount < 10)
@@ -174,10 +180,13 @@ public class PitcherV2 : MonoBehaviour
     Vector3 GetRandomPointInStrikeZone()
     {
         //0.3 -> -0.15 ~ 0.15
-        float randomX = Random.Range(-strikeZoneSize.x / 2, strikeZoneSize.x / 2);
-        float randomY = Random.Range(-strikeZoneSize.y / 2, strikeZoneSize.y / 2);
+        //float randomX = Random.Range(-strikeZoneSize.x / 2, strikeZoneSize.x / 2);
+        //float randomY = Random.Range(-strikeZoneSize.y / 2, strikeZoneSize.y / 2);
 
-        Vector3 randomPoint = strikeZone.position + new Vector3(randomX, randomY, 0f);
+        float randomX = Random.Range(minStrikeZone.x, maxStrikeZone.x);
+        float randomY = Random.Range(minStrikeZone.y, maxStrikeZone.y);
+
+        Vector3 randomPoint = strikeZoneCenter.position + new Vector3(randomX, randomY, 0f);
         return randomPoint;
     }    
 }

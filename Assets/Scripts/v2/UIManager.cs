@@ -104,7 +104,8 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         Time.timeScale = 0;
         gameOverUI.SetActive(true);       
-        gameOverScoreText.text = "Score : " + score;
+        if(gameOverScoreText != null)
+            gameOverScoreText.text = "Score : " + score;
     }
 
 

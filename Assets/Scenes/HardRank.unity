@@ -6199,7 +6199,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 310a1f34e9b344444bffa9b949671ae0, type: 2}
   - {fileID: 11400000, guid: 22fce4c91ccdd5e438c8b9b168ee64fa, type: 2}
   - {fileID: 11400000, guid: 1d552dd1f1c12b54189ca8f78206d203, type: 2}
-  strikeZone: {fileID: 788247678}
+  strikeZoneCenter: {fileID: 788247678}
   pitchAudio: {fileID: 8300000, guid: 31074f623167cdf42a3d95a8c11bcbc5, type: 3}
   backgroundMusic: {fileID: 2058403839}
 --- !u!82 &2058403838

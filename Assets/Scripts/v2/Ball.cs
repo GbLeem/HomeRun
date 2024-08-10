@@ -206,7 +206,7 @@ public class Ball : MonoBehaviour
             {
                 //타격 사운드 출력
                 ballAudio.PlayOneShot(hittingGoodSound);
-                hitForce = 50f;
+                hitForce = 40f;
             }
             else if (ballTiming == eBallTiming.late)
             {

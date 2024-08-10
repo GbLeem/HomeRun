@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Slider
   m_EditorClassIdentifier: 
   force: 15
-  StrikeZoneSize: {x: 0.2, y: 0.1}
-  maxStrikeZone: {x: -0.1, y: 0.2}
-  minStrikeZone: {x: -0.3, y: 0.2}
-  breakingballForce: 2
+  StrikeZoneSize: {x: 0, y: 0}
+  maxStrikeZone: {x: 0.5, y: 0.1}
+  minStrikeZone: {x: 0, y: -0.1}
+  breakingballForce: 3
   breakingballDuration: 0.2
   delayTime: 0
   forceDir: {x: -1, y: 0, z: 0}

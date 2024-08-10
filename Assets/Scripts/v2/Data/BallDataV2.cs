@@ -8,6 +8,7 @@ public class BallDataV2 : ScriptableObject
 
     public Vector2 maxStrikeZone;
     public Vector2 minStrikeZone;
+
     //breaking ball data
     public float breakingballForce = 2f;
     public float breakingballDuration = 0.5f;

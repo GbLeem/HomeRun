@@ -4549,6 +4549,7 @@ MonoBehaviour:
   homeRunText: {fileID: 223799410}
   timingText: {fileID: 1989696783}
   ballText: {fileID: 152274900}
+  gameOverScoreText: {fileID: 0}
   ballImage:
   - {fileID: 1398984482}
   - {fileID: 955093674}
@@ -6198,7 +6199,7 @@ MonoBehaviour:
   ballDatas:
   - {fileID: 11400000, guid: 3bec33189a19a0a41a04028527a0cda3, type: 2}
   - {fileID: 11400000, guid: 20274960e80067a419e3dfeb69f48cec, type: 2}
-  strikeZone: {fileID: 788247678}
+  strikeZoneCenter: {fileID: 788247678}
   pitchAudio: {fileID: 8300000, guid: 31074f623167cdf42a3d95a8c11bcbc5, type: 3}
   backgroundMusic: {fileID: 2058403839}
 --- !u!82 &2058403838
