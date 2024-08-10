@@ -21,7 +21,7 @@ public class PitcherV2 : MonoBehaviour
     private Animator pitcherAnimator;
 
     //ball state
-    private Ball ball;    
+    private Ball ball;        
 
     private void Awake()
     {
@@ -38,7 +38,7 @@ public class PitcherV2 : MonoBehaviour
         }
 
         //random ball type
-        totalBallDataSize = ballDatas.Length;
+        totalBallDataSize = ballDatas.Length;        
     }
 
     private void Update()
@@ -115,7 +115,7 @@ public class PitcherV2 : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-    }
+    }    
 
     int SelectBallIndex()
     {

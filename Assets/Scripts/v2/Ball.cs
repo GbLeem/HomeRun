@@ -47,7 +47,8 @@ public class Ball : MonoBehaviour
 
     //total hitting chance    
     private bool bIsShowUI = false;
-
+    
+    
     private void Awake()
     { 
         rigidBody = GetComponent<Rigidbody>();
@@ -71,7 +72,7 @@ public class Ball : MonoBehaviour
         lineRenderer.endWidth = 0.1f;
         
         //total 공 갯수 체크
-        UIManager.instance.ballCount += 1;
+        UIManager.instance.ballCount += 1;        
     }    
 
     private void Update()
@@ -89,7 +90,7 @@ public class Ball : MonoBehaviour
 
         if(ballState == eBallState.none)
         {
-            DrawTrajectory(pitchingMaterial);
+            //DrawTrajectory(pitchingMaterial);
         }
 
         //hitting 이후 공의 상태가 flying 
@@ -119,11 +120,10 @@ public class Ball : MonoBehaviour
 
         if (other.gameObject.CompareTag("StrikeZone"))
         {
-            //Debug.Log("Strike OK");
             ballState = eBallState.strike;
             UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, eBallState.strike);
 
-            //TODO destroy 하지말고 그냥 ball state로 처리하기
+            //ball state로 처리하기
             ballState = eBallState.done;
         }
 
@@ -246,5 +246,6 @@ public class Ball : MonoBehaviour
         positions.Add(transform.position);
         lineRenderer.positionCount = positions.Count;
         lineRenderer.SetPositions(positions.ToArray());
-    }    
+    }
+    
 }

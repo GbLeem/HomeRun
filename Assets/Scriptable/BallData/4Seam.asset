@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d26f868520113f4cab7e0786e0550af, type: 3}
   m_Name: 4Seam
   m_EditorClassIdentifier: 
-  force: 18
-  StrikeZoneSize: {x: 0.5, y: 0.3}
+  force: 15
+  StrikeZoneSize: {x: 0.3, y: 0.3}
   breakingballForce: 0
   breakingballDuration: 0
   delayTime: 0
