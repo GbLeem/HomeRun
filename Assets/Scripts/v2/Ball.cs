@@ -47,12 +47,15 @@ public class Ball : MonoBehaviour
 
     //total hitting chance    
     private bool bIsShowUI = false;
-    
+
+    //ball trail
+    private TrailRenderer trailRenderer;
     
     private void Awake()
     { 
         rigidBody = GetComponent<Rigidbody>();
         lineRenderer = GetComponent<LineRenderer>();
+        trailRenderer = GetComponent<TrailRenderer>();
 
         ballState = eBallState.none;
     }
@@ -68,8 +71,8 @@ public class Ball : MonoBehaviour
         //line renderer 처리
         lineRenderer.enabled = false;
         lineRenderer.positionCount = 0;
-        lineRenderer.startWidth = 0.1f;
-        lineRenderer.endWidth = 0.1f;
+        lineRenderer.startWidth = 0.03f;
+        lineRenderer.endWidth = 0.09f;
         
         //total 공 갯수 체크
         UIManager.instance.ballCount += 1;        
@@ -77,8 +80,7 @@ public class Ball : MonoBehaviour
 
     private void Update()
     {
-        //공 회전 보여주기
-        //TODO 공 회전 속도 수정
+        //공 회전 보여주기        
         transform.Rotate(Vector3.forward * 3000f * Time.deltaTime);
 
         //공 다쓰고, done 일 때
@@ -86,16 +88,12 @@ public class Ball : MonoBehaviour
         {
             if(ballState == eBallState.finish)
                 UIManager.instance.GameOver();
-        }
-
-        if(ballState == eBallState.none)
-        {
-            //DrawTrajectory(pitchingMaterial);
-        }
+        }        
 
         //hitting 이후 공의 상태가 flying 
         if (ballState == eBallState.flying)
         {
+            trailRenderer.enabled = false;
             //StartCoroutine(EraseLine());
             if(bIsShowUI)
             {
