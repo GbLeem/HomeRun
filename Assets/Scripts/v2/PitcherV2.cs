@@ -16,7 +16,7 @@ public class PitcherV2 : MonoBehaviour
     //랜덤 위치
     public Transform strikeZone;
     private Vector2 strikeZoneSize;
-
+    
     //애니메이션
     private Animator pitcherAnimator;
 
@@ -27,6 +27,9 @@ public class PitcherV2 : MonoBehaviour
     private AudioSource pitcherAudio;
     public AudioClip pitchAudio;
     public AudioSource backgroundMusic;
+
+    //ball name
+    private string ballName;
 
     private void Awake()
     {
@@ -81,6 +84,19 @@ public class PitcherV2 : MonoBehaviour
             //TODO 자연스럽게 만들기
             pitcherAnimator.enabled = false;
         }
+
+        if(ballName == "trash")
+        {
+            if(ball != null)
+            {                
+                ball.ColorChange(); 
+                if(ball.ballState == eBallState.flying ||ball.ballState == eBallState.hitting)
+                {
+                    UIManager.instance.ShowTrashImage();
+                }
+            }
+        }
+        
     }  
 
     //현재 이 함수가 animation event를 통해서 실행되고 있음
@@ -104,6 +120,17 @@ public class PitcherV2 : MonoBehaviour
             Vector3 dir = (randomPoint - startPosition.position).normalized;
 
             rigidbody.AddForce(dir * ballDatas[index].force, ForceMode.Impulse);
+
+
+            if (ballDatas[index].ballname == "trash")
+            {
+                ballName = "trash";
+                ball.ColorChange();
+            }
+            else
+            {
+                ballName = "none";
+            }
 
             //커브
             if (ballDatas[index].curveForce.y != 0)
@@ -152,5 +179,5 @@ public class PitcherV2 : MonoBehaviour
 
         Vector3 randomPoint = strikeZone.position + new Vector3(randomX, randomY, 0f);
         return randomPoint;
-    }
+    }    
 }

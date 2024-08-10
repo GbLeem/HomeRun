@@ -58,12 +58,17 @@ public class Ball : MonoBehaviour
     //
     private Vector3 hitDirection;
 
+    //color
+    private MeshRenderer mesh;
+    public Material mat;
+
     private void Awake()
     { 
         rigidBody = GetComponent<Rigidbody>();
         lineRenderer = GetComponent<LineRenderer>();
         trailRenderer = GetComponent<TrailRenderer>();
         ballAudio = GetComponent<AudioSource>();
+        mesh = GetComponent<MeshRenderer>();
 
         ballState = eBallState.none;
     }
@@ -170,7 +175,7 @@ public class Ball : MonoBehaviour
         //공이 배트랑 충돌 발생시
         if(collision.gameObject.CompareTag("Bat"))
         {            
-            
+           
             //충돌 방향계산
             hitDirection = (transform.position - collision.transform.position).normalized;
 
@@ -253,5 +258,10 @@ public class Ball : MonoBehaviour
     public Vector3 GetHitDirection()
     {
         return hitDirection;
+    }
+
+    public void ColorChange()
+    {
+        mesh.material = mat;
     }
 }

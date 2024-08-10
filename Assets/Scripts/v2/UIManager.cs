@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
     public Text homeRunText;
     public Text timingText;
     public Text ballText;
+    public Text gameOverScoreText;
 
     //ball count ui
     public Image[] ballImage;
@@ -43,6 +44,9 @@ public class UIManager : MonoBehaviour
 
     //GameOver
     public GameObject gameOverUI;
+
+    //pitfall
+    public Image trashImage;
     
     public void UpdateDistanceText(float distance)
     {
@@ -99,7 +103,8 @@ public class UIManager : MonoBehaviour
     {
         yield return new WaitForSeconds(seconds);
         Time.timeScale = 0;
-        gameOverUI.SetActive(true);
+        gameOverUI.SetActive(true);       
+        gameOverScoreText.text = "Score : " + score;
     }
 
 
@@ -153,6 +158,21 @@ public class UIManager : MonoBehaviour
             ballImage[ballIdx - 1].color = new Color(1, 0, 0, 0.5f);
         }
                
+    }
+
+    public void ShowTrashImage()
+    {
+        if(trashImage.gameObject.activeSelf == false)
+        {
+            trashImage.gameObject.SetActive(true);
+            StartCoroutine(deactiveImg());
+        }
+    }
+
+    IEnumerator deactiveImg()
+    {
+        yield return new WaitForSeconds(4f);
+        trashImage.gameObject.SetActive(false);
     }
 
     public void GameOver()

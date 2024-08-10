@@ -255,6 +255,7 @@ MonoBehaviour:
   homePlateDir: {x: -0, y: -0, z: -1}
   hittingGoodSound: {fileID: 8300000, guid: 161a7deedbbc40f4299a1082b896e88d, type: 3}
   hittingnormalSound: {fileID: 8300000, guid: 5d77f2205bdbce1459d554d282d8f9c7, type: 3}
+  mat: {fileID: 2100000, guid: e0e58fde068192c4fa6b06846ca7aa67, type: 2}
 --- !u!120 &6626936012495363649
 LineRenderer:
   serializedVersion: 2
