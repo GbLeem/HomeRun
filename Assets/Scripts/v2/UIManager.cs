@@ -47,7 +47,34 @@ public class UIManager : MonoBehaviour
 
     //pitfall
     public Image trashImage;
-    
+
+
+    //fire works
+    public ParticleSystem particle1;
+    public ParticleSystem particle2;
+    public ParticleSystem particle3;
+
+    public void PlayParticle()
+    {
+        particle1.gameObject.SetActive(true);
+        particle1.Play();
+        particle2.gameObject.SetActive(true);
+        particle2.Play();
+        particle3.gameObject.SetActive(true);
+        particle3.Play();
+
+        StartCoroutine(StopParticle());
+    }
+
+
+    IEnumerator StopParticle()
+    {
+        yield return new WaitForSeconds(3f);
+        particle1.gameObject.SetActive(false);
+        particle2.gameObject.SetActive(false);
+        particle3.gameObject.SetActive(false);
+    }
+
     public void UpdateDistanceText(float distance)
     {
         distanceText.text = string.Format("{0:F2}", distance) + " m";
@@ -103,9 +130,9 @@ public class UIManager : MonoBehaviour
     {
         yield return new WaitForSeconds(seconds);
         Time.timeScale = 0;
-        gameOverUI.SetActive(true);       
-        if(gameOverScoreText != null)
-            gameOverScoreText.text = "Score : " + score;
+        gameOverUI.SetActive(true);
+        if (gameOverScoreText != null)
+            gameOverScoreText.text = "Score : " + string.Format("{0:F2}", score);
     }
 
 
@@ -188,9 +215,9 @@ public class UIManager : MonoBehaviour
         //float timingUITotalSize = timingUI.rect.height;
         float batUICurrentPos = batUI.anchoredPosition.y; //-100 ~ 100
 
-        if (batUICurrentPos < -30f)
+        if (batUICurrentPos < -40f)
             timing = eBallTiming.late;
-        else if (batUICurrentPos > -30f && batUICurrentPos < 30f)
+        else if (batUICurrentPos > -40f && batUICurrentPos < 40f)
             timing = eBallTiming.good;
         else
             timing = eBallTiming.fast;

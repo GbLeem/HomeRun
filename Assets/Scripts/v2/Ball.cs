@@ -144,6 +144,10 @@ public class Ball : MonoBehaviour
             ballState = eBallState.homerun;
             UIManager.instance.ShowHomeRunText();
 
+            //파티클
+            UIManager.instance.PlayParticle();
+
+
             //홈런친 순간 적용
             UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, eBallState.homerun);
             CalculateScore(ballTiming, distance, eBallState.homerun);
