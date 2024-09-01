@@ -85,8 +85,7 @@ public class Bat : MonoBehaviour
             {
                 StopCoroutine(coroutine);
                 StartCoroutine(UIManager.instance.ResetSwingUI());
-
-                //TODO 타이밍 계산 함수 바꾸기                
+                        
                 ball.ballState = eBallState.flying;
             }
         }

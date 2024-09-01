@@ -12,6 +12,7 @@ public class Lobby : MonoBehaviour
 
     public void GameStart()
     {
+        //난이도에 따라 다른 Scene 로드
         if (isEasy)
             SceneManager.LoadScene("EasyRank");
         else
@@ -19,11 +20,8 @@ public class Lobby : MonoBehaviour
     }
 
     public void RestartGame()
-    {
-        // 현재 활성화된 씬의 이름을 가져와서 다시 로드
-        //Scene currentScene = SceneManager.GetActiveScene();
-        //SceneManager.LoadScene(currentScene.name);
-        //Time.timeScale = 1;
+    {                
+        //게임을 다시 시작할때는 Lobby Scene 부터 시작
         SceneManager.LoadScene("Lobby");
         Time.timeScale = 1;
     }
@@ -31,7 +29,7 @@ public class Lobby : MonoBehaviour
     void Start()
     {
         isEasy = true;
-        // 각각의 토글에 이벤트를 추가합니다.
+        // 각각의 토글에 이벤트를 추가
         if(easyToggle != null && hardToggle != null)
         {
             easyToggle.onValueChanged.AddListener(OnEasyToggleChanged);
@@ -39,32 +37,31 @@ public class Lobby : MonoBehaviour
         }
     }
 
-    // Easy 토글이 변경될 때 호출되는 함수
+    //하나의 난이도를 선택하면 다른 난이도 선택 못하도록 함수 구현
     void OnEasyToggleChanged(bool isOn)
     {
         if (isOn)
         {
-            hardToggle.isOn = false; // Easy가 켜지면 Hard를 끕니다.
+            hardToggle.isOn = false;
             isEasy = true;
         }
         else
         {
-            hardToggle.isOn = true; // Easy가 꺼지면 Hard를 켭니다.
+            hardToggle.isOn = true;
             isEasy = false;
         }
     }
 
-    // Hard 토글이 변경될 때 호출되는 함수
     void OnHardToggleChanged(bool isOn)
     {
         if (isOn)
         {
-            easyToggle.isOn = false; // Hard가 켜지면 Easy를 끕니다.
+            easyToggle.isOn = false;
             isEasy = false;
         }
         else
         {
-            easyToggle.isOn = true; // Hard가 꺼지면 Easy를 켭니다.
+            easyToggle.isOn = true;
             isEasy = true;
         }
     }

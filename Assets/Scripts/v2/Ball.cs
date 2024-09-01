@@ -72,10 +72,7 @@ public class Ball : MonoBehaviour
 
         ballState = eBallState.none;
     }
-    private void OnDestroy()
-    {
 
-    }
     private void Start()
     {        
         //공이 처음에는 none 상태로 시작함
@@ -93,7 +90,7 @@ public class Ball : MonoBehaviour
 
     private void Update()
     {
-        //공 회전 보여주기        
+        //공을 자체적으로 회전시켜 실제 공이 날아오는 것처럼 보이게 하기    
         transform.Rotate(Vector3.forward * 3000f * Time.deltaTime);
 
         //공 다쓰고, done 일 때
@@ -107,7 +104,7 @@ public class Ball : MonoBehaviour
         if (ballState == eBallState.flying)
         {
             trailRenderer.enabled = false;
-            //StartCoroutine(EraseLine());
+
             if(bIsShowUI)
             {
                 UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, ballState);                
@@ -125,8 +122,7 @@ public class Ball : MonoBehaviour
         }     
     }
     private void OnTriggerEnter(Collider other)
-    {
-        //맨 처음에 왜 인식이 안되는것? -> collider 너무 작아서
+    {        
         bIsShowUI = false;
 
         if (other.gameObject.CompareTag("StrikeZone"))
@@ -146,7 +142,6 @@ public class Ball : MonoBehaviour
 
             //파티클
             UIManager.instance.PlayParticle();
-
 
             //홈런친 순간 적용
             UIManager.instance.UpdateBallImage(UIManager.instance.ballCount, eBallState.homerun);
@@ -184,10 +179,8 @@ public class Ball : MonoBehaviour
             hitDirection = (transform.position - collision.transform.position).normalized;
 
 
-            //ball timing 계산해서 force 적용
-            //타이밍 계산 함수 수정
+            //ball timing 계산해서 force 적용            
             ballTiming = UIManager.instance.CalculateTimingByUI();
-
             UIManager.instance.ShowTimingText(ballTiming);
 
             //충돌 방향이 0보다 작으면 파울

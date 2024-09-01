@@ -9,13 +9,13 @@ public class PitcherV2 : MonoBehaviour
 
     public Ball ballPrefab;
 
-    //새로 만든거
+    //스크럽터블 데이터 이용
     public BallDataV2[] ballDatas;
     private int totalBallDataSize;
 
     //랜덤 위치
     public Transform strikeZoneCenter;
-    private Vector2 strikeZoneSize;
+    //private Vector2 strikeZoneSize;
 
     private Vector2 maxStrikeZone;
     private Vector2 minStrikeZone;
@@ -83,8 +83,7 @@ public class PitcherV2 : MonoBehaviour
         
         if(UIManager.instance.ballCount == 10)
         {
-            //애니메이션 멈추기
-            //TODO 자연스럽게 만들기
+            //애니메이션 멈추기            
             pitcherAnimator.enabled = false;
         }
 
@@ -102,15 +101,15 @@ public class PitcherV2 : MonoBehaviour
         
     }  
 
-    //현재 이 함수가 animation event를 통해서 실행되고 있음
+    //animation event를 통해서 실행되는 함수
     void Pitching()
     {
         //sound
         pitcherAudio.PlayOneShot(pitchAudio, 0.5f);
 
         int index = SelectBallIndex();
-
-        //strikeZoneSize = ballDatas[index].StrikeZoneSize;
+        
+        //ball data를 통해 random 한 투구 영역 정하기
         maxStrikeZone = ballDatas[index].maxStrikeZone;
         minStrikeZone = ballDatas[index].minStrikeZone;
 
@@ -127,7 +126,7 @@ public class PitcherV2 : MonoBehaviour
 
             rigidbody.AddForce(dir * ballDatas[index].force, ForceMode.Impulse);
 
-
+            //
             if (ballDatas[index].ballname == "trash")
             {
                 ballName = "trash";
@@ -141,15 +140,14 @@ public class PitcherV2 : MonoBehaviour
             //커브
             if (ballDatas[index].curveForce.y != 0)
                 rigidbody.AddForce(ballDatas[index].curveForce, ForceMode.Impulse);
-
-            //공 텍스쳐 돌아가게 보일려고
-            //TODO 직구랑 슬라이더랑 회전 방향 다르게           
+                            
             StartCoroutine(BreakingBall(rigidbody, index));
         }
 
         UIManager.instance.ShowBallText(ballDatas[index].ballname);
     }
-
+    
+    //변화구의 경우 추가로 Addforce 해주는 코루틴 
     IEnumerator BreakingBall(Rigidbody rb, int index)
     {
         //1 4seam
@@ -170,6 +168,7 @@ public class PitcherV2 : MonoBehaviour
         }
     }    
 
+    //ball data에서 랜덤한 구종 정하기
     int SelectBallIndex()
     {
         totalBallDataSize = ballDatas.Length;
@@ -177,12 +176,9 @@ public class PitcherV2 : MonoBehaviour
         return idx;
     }
 
+    //ball data로부터 가져온 위치를 통해 투구가 될 위치 설정
     Vector3 GetRandomPointInStrikeZone()
-    {
-        //0.3 -> -0.15 ~ 0.15
-        //float randomX = Random.Range(-strikeZoneSize.x / 2, strikeZoneSize.x / 2);
-        //float randomY = Random.Range(-strikeZoneSize.y / 2, strikeZoneSize.y / 2);
-
+    {        
         float randomX = Random.Range(minStrikeZone.x, maxStrikeZone.x);
         float randomY = Random.Range(minStrikeZone.y, maxStrikeZone.y);
 
